@@ -20,11 +20,11 @@ var assets =
 // source path
 var source = 
 {   
-    html: src + '/html',
-    sass: src + '/sass',
-    js: src + '/js',
-    img: src + '/img',
-    fonts: src + '/fonts'    
+    html:  src + '/html/**/*.html',
+    sass:  src + '/sass/**/*.scss',
+    js:    src + '/js/**/*.js',
+    img:   src + '/img/**/*.{jpg,png,gif,svg}',
+    fonts: src + '/fonts/*.{ttf,woff,eof,svg}'
 }
 
 
