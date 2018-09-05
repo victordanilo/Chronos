@@ -17,5 +17,8 @@
     "vendor",
     "tests"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "uikit": "v3.0.0-rc.19",
+    "jquery": "3.2.1"
+  }
 }
