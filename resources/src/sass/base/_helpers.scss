@@ -1,0 +1,76 @@
+/**
+* Get value in maps
+* 
+* @param {Maps} $map				The map to be searched			
+* @param {String} $name				The key name of the value to be getting
+*/
+@function map-get-value($map,$name) {
+	@if map-has-key($map, $name) {
+		@return map-get($map, $name);
+	}
+	@warn "Unknown `#{$name}` in `#{$map}`";
+	@return null;
+}
+
+/**
+* Get color value
+*
+* @param {String} $name				The color name to be getting 			
+*/
+@function color($name) {
+	@return map-get-value($colors,$name);
+}
+
+/**
+* Get breakpoint value
+*
+* @param {String} $name				The breakpoint name to be getting 
+*/
+@function breakpoint($name) {
+
+	@if map-has-key($breakpoints, $name) {
+		@return map-get($breakpoints, $name);
+	}
+
+	@else if(type-of($name) == number and index('px' '%', unit($name)) != null) {
+		@return $name;
+	}
+
+	@warn "Unknown `#{$name}` in `#{$breakpoints}`";
+	@return null;
+}
+
+/**
+* Search and replace values in string
+* 
+* @param {String} $string			The string being searched and replaced
+* @param {String} $search			The value being searched
+* @param {String} $replace:	""		The replacement value that replaces found search values.	
+*/
+@function str-replace($string, $search, $replace: "") {
+	$index: str-index($string, $search);
+	@if $index {
+		@return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+	}
+	@return $string;
+}
+
+/**
+* Convert value type PX to REM
+*
+* @param {Number} $target-px		The value to be converted 
+* @param {Number} $context: 16px	The base value for conversion
+*/
+@function rem($target-px, $context: $font-size-default) {
+	@return ($target-px / $context) * 1rem;
+}
+
+/**
+* Convert value type PX to EM
+*
+* @param {Number} $target-px 		 The value to be converted
+* @param {Number} $context: 16px     The base value for conversion 
+*/
+@function em($target-px, $context: $font-size-default) {
+	@return ($target-px / $context) * 1em;
+}
