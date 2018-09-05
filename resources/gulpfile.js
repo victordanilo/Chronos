@@ -115,6 +115,14 @@ gulp.task('clean-vendor',function(done){
 // cleanup the assets directory
 gulp.task('clean-all', gulp.parallel('clean-img', 'clean-css', 'clean-js', 'clean-fonts', 'clean-vendor'));
 
+// cleanup the tests directory
+gulp.task('clean-tests',function(done){
+    var file = '/**';
+    var not = '!';
+    del.sync([dir.tests+file, not+dir.tests],{force:true});
+    done();
+});
+
 
 // load views files 
 gulp.task('views', function(){
