@@ -1,6 +1,7 @@
 // load the gulp dependencies
 var del          = require('del');
 var each         = require('foreach');
+var uikit        = require('./uikit_util');
 var gulp         = require('gulp');
 var rename       = require('gulp-rename');
 var plumber      = require('gulp-plumber');
@@ -212,8 +213,40 @@ gulp.task('load-dependencies',function(done){
 });
 
 
+// build custom uikit sass
+gulp.task('build-custom-uikit-sass', function (){
+    return gulp.src(source.sass.path + '/vendor/uikit.scss')
+               .pipe(plumber())
+               .pipe(development(sourcemaps.init()))
+               .pipe(sass({outputStyle:'compressed', includePaths: ['./vendor/uikit/src/scss/components/']}))
+               .pipe(prefixer())
+               .pipe(development(sourcemaps.write('.')))
+               .pipe(rename({suffix:'.min'}))
+               .pipe(gulp.dest(assets.vendor + '/uikit/css'))
+               .pipe(browserSync.stream());
+});
+
+// build custom uikit js
+gulp.task('build-custom-uikit-js', function(done){
+    uikit.compile('src/js/vendor/uikit.js', assets.vendor + '/uikit/js/uikit', {bundled: true});
+    done();
+});
+
+// build custom uikit icons
+gulp.task('build-custom-uikit-icons', function(done){
+    uikit.compile('vendor/uikit/src/js/icons.js', assets.vendor + '/uikit/js/uikit-icons', {
+        name: 'icons',
+        replaces: {ICONS: uikit.icons('{vendor/uikit/src/images,src/img}/icons/*.svg')}
+    });
+    done();
+});
+
+// build custom uikit
+gulp.task('build-custom-uikit', gulp.parallel('build-custom-uikit-sass', 'build-custom-uikit-js', 'build-custom-uikit-icons'));
+
+
 // set up a local testing server
-gulp.task('server', gulp.series('clean-tests', 'set-env-dev', 'load-dependencies', 'build-source',function(){
+gulp.task('server', gulp.series('clean-tests', 'set-env-dev', 'load-dependencies', 'build-source', 'build-custom-uikit-icons',function(){
     browserSync.init({
         server:{
             baseDir: path.tests
