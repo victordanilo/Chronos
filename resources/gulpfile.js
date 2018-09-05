@@ -11,6 +11,7 @@ var sourcemaps   = require('gulp-sourcemaps');
 var prefixer     = require('gulp-autoprefixer');
 var imagemin     = require('gulp-imagemin');
 var environments = require('gulp-environments');
+var browserSync  = require('browser-sync').create();
 
 // variables of environment
 var pkg   = require('./package.json');
@@ -142,7 +143,8 @@ gulp.task('compile-sass',function(){
                .pipe(prefixer({browsers: ['> 1%', 'last 2 versions', 'firefox >= 4', 'safari 7', 'safari 8', 'IE 8', 'IE 9', 'IE 10', 'IE 11']}))
                .pipe(development(sourcemaps.write('.')))
                .pipe(rename({basename:'style'}))
-               .pipe(gulp.dest(assets.css));
+               .pipe(gulp.dest(assets.css))
+               .pipe(browserSync.stream());
 });
 
 // compile javascript files
@@ -151,20 +153,23 @@ gulp.task('compile-js',function(){
                .pipe(plumber())
                .pipe(babel())
                .pipe(production(uglify()))
-               .pipe(gulp.dest(assets.js));
+               .pipe(gulp.dest(assets.js))
+               .pipe(browserSync.stream());
 });
 
 // optimizing and load images files
 gulp.task('img', function(){
     return gulp.src(source.img)
                .pipe(imagemin())
-               .pipe(gulp.dest(assets.img));
+               .pipe(gulp.dest(assets.img))
+               .pipe(browserSync.stream());
 });
 
 // load fonts files 
 gulp.task('fonts',function(){
     return gulp.src(source.fonts)
-               .pipe(gulp.dest(assets.fonts));
+               .pipe(gulp.dest(assets.fonts))
+               .pipe(browserSync.stream());
 });
 
 // watch the changes in source files
@@ -187,3 +192,19 @@ gulp.task('load-dependencies',function(done){
     });
     done();
 });
+
+
+// set up a local testing server
+gulp.task('server', gulp.series('set-env-dev','build-source',function(){
+    browserSync.init({
+        server:{
+            baseDir: "./tests"
+        }
+    });
+
+    gulp.watch(source.html, gulp.parallel('views')).on('change',browserSync.reload);
+    gulp.watch(source.sass, gulp.parallel('compile-sass'));
+    gulp.watch(source.js, gulp.parallel('compile-js'));
+    gulp.watch(source.img, gulp.parallel('img'));
+    gulp.watch(source.fonts, gulp.parallel('fonts'));
+}));
