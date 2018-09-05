@@ -8,20 +8,21 @@ var plumber     = require('gulp-plumber');
 var sass        = require('gulp-sass');
 var sourcemaps  = require('gulp-sourcemaps');
 var prefixer    = require('gulp-autoprefixer');
-var imagemin     = require('gulp-imagemin');
+var imagemin    = require('gulp-imagemin');
 
-// variables
-var dist = '../public';
-var src = './src';
+// base directories path
+var dist   = '../public';
+var views  = '../application/views';
+var src    = './src';
 var vendor = './vendor';
 
 // assets path
 var assets = 
 {  
-    img: dist + '/assets/img',
-    css: dist + '/assets/css',
-    js:  dist + '/assets/js',
-    fonts: dist + '/assets/fonts',
+    img:    dist + '/assets/img',
+    css:    dist + '/assets/css',
+    js:     dist + '/assets/js',
+    fonts:  dist + '/assets/fonts',
     vendor: dist + '/assets/vendor'
 }
 
@@ -79,6 +80,13 @@ gulp.task('clean-vendor',function(done){
 // cleanup the assets directory
 gulp.task('clean-all', gulp.parallel('clean-img', 'clean-css', 'clean-js', 'clean-fonts', 'clean-vendor'));
 
+
+// load views files 
+gulp.task('views', function(){
+    return gulp.src(source.html)
+               .pipe(rename({extname: ".php"}))
+               .pipe(gulp.dest(views));
+});
 
 // compile sass files
 gulp.task('compile-sass',function(){
