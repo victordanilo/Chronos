@@ -122,3 +122,12 @@ gulp.task('fonts',function(){
     return gulp.src(source.fonts)
                .pipe(gulp.dest(assets.fonts));
 });
+
+// watch the changes in source files
+gulp.task('watch-source', function(){
+    gulp.watch(source.html, gulp.series('views'));
+    gulp.watch(source.sass, gulp.series('compile-sass'));
+    gulp.watch(source.js, gulp.series('compile-js'));
+    gulp.watch(source.img, gulp.series('img'));
+    gulp.watch(source.fonts, gulp.series('fonts'));
+});
