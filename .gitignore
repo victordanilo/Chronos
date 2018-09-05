@@ -1,0 +1,16 @@
+!application/*/.htaccess
+application/cache/*
+!application/cache/index.html
+application/logs/*
+!application/logs/index.html
+application/config/database.php
+
+public/assets/*
+
+system/*
+
+composer.lock
+
+/vendor/
+
+.idea/*

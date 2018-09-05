@@ -1,0 +1,21 @@
+{
+  "name": "chronos",
+  "description": "project manager",
+  "keywords": [
+    "project-manager",
+    "timetracking",
+    "scrumboard"
+  ],
+  "authors": [
+    "Victor Danilo <victordanilo_cs@live.com> (http://victordanilo.me)"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "vendor",
+    "tests"
+  ],
+  "dependencies": {}
+}
