@@ -1,6 +1,11 @@
 // load the gulp dependencies
-var del = require('del');
-var gulp = require('gulp');
+var del         = require('del');
+var gulp        = require('gulp');
+var rename      = require('gulp-rename');
+var plumber     = require('gulp-plumber');
+var sass        = require('gulp-sass');
+var sourcemaps  = require('gulp-sourcemaps');
+var prefixer    = require('gulp-autoprefixer');
 
 // variables
 var dist = '../public';
@@ -70,3 +75,17 @@ gulp.task('clean-vendor',function(done){
 
 // cleanup the assets directory
 gulp.task('clean-all', gulp.parallel('clean-img', 'clean-css', 'clean-js', 'clean-fonts', 'clean-vendor'));
+
+
+// compile sass files
+gulp.task('compile-sass',function(){
+    return gulp.src(source.sass)
+               .pipe(plumber())
+               .pipe(sourcemaps.init())
+               .pipe(sass())
+               .pipe(sass({outputStyle:'compressed'}))
+               .pipe(prefixer({browsers: ['> 1%', 'last 2 versions', 'firefox >= 4', 'safari 7', 'safari 8', 'IE 8', 'IE 9', 'IE 10', 'IE 11']}))
+               .pipe(sourcemaps.write('.'))
+               .pipe(rename({basename:'style'}))
+               .pipe(gulp.dest(assets.css));
+});
