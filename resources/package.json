@@ -11,10 +11,12 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
+    "preinstall": "bower i",
+    "postinstall": "cd vendor/uikit && npm i",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
+    "@babel/core": "^7.0.0",
     "browser-sync": "^2.24.7",
     "del": "^3.0.0",
     "foreach": "^2.0.5",

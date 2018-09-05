@@ -16,11 +16,12 @@ var browserSync  = require('browser-sync').create();
 // variables of environment
 var pkg   = require('./package.json');
 var bower = require('./bower.json');
-var development = environments.development;
 var production  = environments.production;
+var development = environments.development;
+
 
 // base directories path
-var dir = 
+var path = 
 {
     public: '../public',
     views:  '../application/views',
@@ -35,21 +36,36 @@ var dir =
 // assets path
 var assets = 
 {  
-    img:    dir.dist() + '/assets/img',
-    css:    dir.dist() + '/assets/css',
-    js:     dir.dist() + '/assets/js',
-    fonts:  dir.dist() + '/assets/fonts',
-    vendor: dir.dist() + '/assets/vendor'
+    img:    path.dist() + '/assets/img',
+    css:    path.dist() + '/assets/css',
+    js:     path.dist() + '/assets/js',
+    fonts:  path.dist() + '/assets/fonts',
+    vendor: path.dist() + '/assets/vendor'
 }
 
 // source path
 var source = 
-{   
-    html:  dir.src + '/html/**/*.html',
-    sass:  dir.src + '/sass/**/*.scss',
-    js:    dir.src + '/js/**/*.js',
-    img:   dir.src + '/img/**/*.{jpg,png,gif,svg}',
-    fonts: dir.src + '/fonts/*.{ttf,woff,eof,svg}'    
+{
+    html: {
+        path:  path.src + '/html',
+        files: path.src + '/html/**/*.html'
+    },
+    sass: {
+        path:  path.src + '/sass',
+        files: path.src + '/sass/**/*.scss'
+    },
+    js: {
+        path:  path.src + '/js',
+        files: path.src + '/js/**/*.js',
+    },
+    img: {
+        path:  path.src + '/img',
+        files: path.src + '/img/**/*.{jpg,png,gif,svg,ico}'
+    },
+    fonts: {
+        path:  path.src + '/fonts',
+        files: path.src + '/fonts/*.{ttf,woff,eof,svg}'
+    }
 }
 
 
@@ -73,7 +89,7 @@ gulp.task('env-current',function(done){
 });
 
 
-// cleanup the image subdirectory of the assets directory
+// clean up the image subdirectory of the assets directory
 gulp.task('clean-img',function(done){
     var file = '/**';
     var not = '!';
@@ -81,7 +97,7 @@ gulp.task('clean-img',function(done){
     done();
 });
 
-// cleanup the css subdirectory of the assets directory
+// clean up the css subdirectory of the assets directory
 gulp.task('clean-css',function(done){
     var file = '/**';
     var not = '!';
@@ -89,7 +105,7 @@ gulp.task('clean-css',function(done){
     done();
 });
 
-// cleanup the js subdirectory of the assets directory
+// clean up the js subdirectory of the assets directory
 gulp.task('clean-js',function(done){
     var file = '/**';
     var not = '!';
@@ -97,7 +113,7 @@ gulp.task('clean-js',function(done){
     done();
 });
 
-// cleanup the fonts subdirectory of the assets directory
+// clean up the fonts subdirectory of the assets directory
 gulp.task('clean-fonts',function(done){
     var file = '/**';
     var not = '!';
@@ -105,7 +121,7 @@ gulp.task('clean-fonts',function(done){
     done();
 });
 
-// cleanup the vendor subdirectory of the assets directory
+// clean up the vendor subdirectory of the assets directory
 gulp.task('clean-vendor',function(done){
     var file = '/**';
     var not = '!';
@@ -113,53 +129,54 @@ gulp.task('clean-vendor',function(done){
     done();
 });
 
-// cleanup the assets directory
+// clean up the assets directory
 gulp.task('clean-all', gulp.parallel('clean-img', 'clean-css', 'clean-js', 'clean-fonts', 'clean-vendor'));
 
-// cleanup the tests directory
+// clean up the tests directory
 gulp.task('clean-tests',function(done){
     var file = '/**';
     var not = '!';
-    del.sync([dir.tests+file, not+dir.tests],{force:true});
+    del.sync([path.tests+file, not+path.tests],{force:true});
     done();
 });
 
 
 // load views files 
 gulp.task('views', function(){
-    return gulp.src(source.html)
+    return gulp.src(source.html.files)
                .pipe(production(rename({extname: ".php"})))
-               .pipe(production(gulp.dest(dir.views)))
-               .pipe(development(gulp.dest(dir.tests)));
+               .pipe(production(gulp.dest(path.views)))
+               .pipe(development(gulp.dest(path.tests)));
 });
 
 // compile sass files
 gulp.task('compile-sass',function(){
-    return gulp.src(source.sass)
+    return gulp.src(source.sass.path + '/main.scss')
                .pipe(plumber())
                .pipe(development(sourcemaps.init()))
                .pipe(development(sass()))
                .pipe(production(sass({outputStyle:'compressed'})))
                .pipe(prefixer({browsers: ['> 1%', 'last 2 versions', 'firefox >= 4', 'safari 7', 'safari 8', 'IE 8', 'IE 9', 'IE 10', 'IE 11']}))
                .pipe(development(sourcemaps.write('.')))
-               .pipe(rename({basename:'style'}))
+               .pipe(rename({suffix:'.min'}))
                .pipe(gulp.dest(assets.css))
                .pipe(browserSync.stream());
 });
 
 // compile javascript files
 gulp.task('compile-js',function(){
-    return gulp.src(source.js)
+    return gulp.src([source.js.files, '!' + source.js.path + '/vendor/*.js'])
                .pipe(plumber())
                .pipe(babel())
                .pipe(production(uglify()))
+               .pipe(rename({suffix:'.min'}))
                .pipe(gulp.dest(assets.js))
                .pipe(browserSync.stream());
 });
 
 // optimizing and load images files
 gulp.task('img', function(){
-    return gulp.src(source.img)
+    return gulp.src([source.img.files, '!' + source.img.path + '/icons/**'])
                .pipe(imagemin())
                .pipe(gulp.dest(assets.img))
                .pipe(browserSync.stream());
@@ -167,18 +184,19 @@ gulp.task('img', function(){
 
 // load fonts files 
 gulp.task('fonts',function(){
-    return gulp.src(source.fonts)
+    return gulp.src(source.fonts.files)
                .pipe(gulp.dest(assets.fonts))
                .pipe(browserSync.stream());
 });
 
+
 // watch the changes in source files
 gulp.task('watch-source', function(){
-    gulp.watch(source.html, gulp.series('views'));
-    gulp.watch(source.sass, gulp.series('compile-sass'));
-    gulp.watch(source.js, gulp.series('compile-js'));
-    gulp.watch(source.img, gulp.series('img'));
-    gulp.watch(source.fonts, gulp.series('fonts'));
+    gulp.watch(source.html.files,  gulp.series('views'));
+    gulp.watch(source.sass.files,  gulp.series('compile-sass'));
+    gulp.watch(source.js.files,    gulp.series('compile-js'));
+    gulp.watch(source.img.files,   gulp.series('img'));
+    gulp.watch(source.fonts.files, gulp.series('fonts'));
 });
 
 // build all source files
@@ -195,16 +213,16 @@ gulp.task('load-dependencies',function(done){
 
 
 // set up a local testing server
-gulp.task('server', gulp.series('set-env-dev','build-source',function(){
+gulp.task('server', gulp.series('clean-tests', 'set-env-dev', 'load-dependencies', 'build-source',function(){
     browserSync.init({
         server:{
-            baseDir: "./tests"
+            baseDir: path.tests
         }
     });
 
-    gulp.watch(source.html, gulp.parallel('views')).on('change',browserSync.reload);
-    gulp.watch(source.sass, gulp.parallel('compile-sass'));
-    gulp.watch(source.js, gulp.parallel('compile-js'));
-    gulp.watch(source.img, gulp.parallel('img'));
-    gulp.watch(source.fonts, gulp.parallel('fonts'));
+    gulp.watch(source.html.files,  gulp.parallel('views')).on('change',browserSync.reload);
+    gulp.watch(source.sass.files,  gulp.parallel('compile-sass'));
+    gulp.watch(source.js.files,    gulp.parallel('compile-js'));
+    gulp.watch(source.img.files,   gulp.parallel('img'));
+    gulp.watch(source.fonts.files, gulp.parallel('fonts'));
 }));
