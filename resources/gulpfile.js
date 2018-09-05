@@ -8,6 +8,7 @@ var plumber     = require('gulp-plumber');
 var sass        = require('gulp-sass');
 var sourcemaps  = require('gulp-sourcemaps');
 var prefixer    = require('gulp-autoprefixer');
+var imagemin     = require('gulp-imagemin');
 
 // variables
 var dist = '../public';
@@ -99,4 +100,11 @@ gulp.task('compile-js',function(){
                .pipe(babel())
                .pipe(uglify())
                .pipe(gulp.dest(assets.js));
-}); 
+});
+
+// optimizing and load images files
+gulp.task('img', function(){
+    return gulp.src(source.img)
+               .pipe(imagemin())
+               .pipe(gulp.dest(assets.img));
+});
