@@ -119,19 +119,20 @@ gulp.task('clean-all', gulp.parallel('clean-img', 'clean-css', 'clean-js', 'clea
 // load views files 
 gulp.task('views', function(){
     return gulp.src(source.html)
-               .pipe(rename({extname: ".php"}))
-               .pipe(gulp.dest(dir.views));
+               .pipe(production(rename({extname: ".php"})))
+               .pipe(production(gulp.dest(dir.views)))
+               .pipe(development(gulp.dest(dir.tests)));
 });
 
 // compile sass files
 gulp.task('compile-sass',function(){
     return gulp.src(source.sass)
                .pipe(plumber())
-               .pipe(sourcemaps.init())
-               .pipe(sass())
-               .pipe(sass({outputStyle:'compressed'}))
+               .pipe(development(sourcemaps.init()))
+               .pipe(development(sass()))
+               .pipe(production(sass({outputStyle:'compressed'})))
                .pipe(prefixer({browsers: ['> 1%', 'last 2 versions', 'firefox >= 4', 'safari 7', 'safari 8', 'IE 8', 'IE 9', 'IE 10', 'IE 11']}))
-               .pipe(sourcemaps.write('.'))
+               .pipe(development(sourcemaps.write('.')))
                .pipe(rename({basename:'style'}))
                .pipe(gulp.dest(assets.css));
 });
@@ -141,7 +142,7 @@ gulp.task('compile-js',function(){
     return gulp.src(source.js)
                .pipe(plumber())
                .pipe(babel())
-               .pipe(uglify())
+               .pipe(production(uglify()))
                .pipe(gulp.dest(assets.js));
 });
 
