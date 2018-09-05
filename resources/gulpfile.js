@@ -10,10 +10,13 @@ var sass        = require('gulp-sass');
 var sourcemaps  = require('gulp-sourcemaps');
 var prefixer    = require('gulp-autoprefixer');
 var imagemin    = require('gulp-imagemin');
+var environments = require('gulp-environments');
 
 // variables of environment
 var pkg   = require('./package.json');
 var bower = require('./bower.json');
+var development = environments.development;
+var production  = environments.production;
 
 // base directories path
 var dist   = '../public';
@@ -40,6 +43,26 @@ var source =
     img:   src + '/img/**/*.{jpg,png,gif,svg}',
     fonts: src + '/fonts/*.{ttf,woff,eof,svg}'
 }
+
+
+// set environment for development
+gulp.task('set-env-dev',function(done){
+    environments.current(development);
+    done();
+});
+
+// set environment for production
+gulp.task('set-env-prod',function(done){
+    environments.current(production);
+    done();
+});
+
+// show current environment 
+gulp.task('env-current',function(done){
+    var status = production() ? 'production' : development() ? 'development' : undefined;
+    console.log('current environment is ' + status);
+    done();
+});
 
 
 // cleanup the image subdirectory of the assets directory
