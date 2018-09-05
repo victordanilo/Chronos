@@ -1,5 +1,6 @@
 // load the gulp dependencies
 var del         = require('del');
+var each        = require('foreach');
 var gulp        = require('gulp');
 var rename      = require('gulp-rename');
 var babel       = require('gulp-babel');
@@ -9,6 +10,10 @@ var sass        = require('gulp-sass');
 var sourcemaps  = require('gulp-sourcemaps');
 var prefixer    = require('gulp-autoprefixer');
 var imagemin    = require('gulp-imagemin');
+
+// variables of environment
+var pkg   = require('./package.json');
+var bower = require('./bower.json');
 
 // base directories path
 var dist   = '../public';
@@ -134,3 +139,12 @@ gulp.task('watch-source', function(){
 
 // build all source files
 gulp.task('build-source', gulp.parallel('views', 'compile-sass', 'compile-js', 'img', 'fonts'));
+
+// load the dependencies of the project
+gulp.task('load-dependencies',function(done){
+    each(bower.dependencies,function(version,name){
+        gulp.src('./vendor/' + name + '/dist/**/*.{min.css,min.js}')
+            .pipe(gulp.dest(assets.vendor +'/'+ name +'/'));
+    });
+    done();
+});
