@@ -2,6 +2,8 @@
 var del         = require('del');
 var gulp        = require('gulp');
 var rename      = require('gulp-rename');
+var babel       = require('gulp-babel');
+var uglify      = require('gulp-uglify');
 var plumber     = require('gulp-plumber');
 var sass        = require('gulp-sass');
 var sourcemaps  = require('gulp-sourcemaps');
@@ -89,3 +91,12 @@ gulp.task('compile-sass',function(){
                .pipe(rename({basename:'style'}))
                .pipe(gulp.dest(assets.css));
 });
+
+// compile javascript files
+gulp.task('compile-js',function(){
+    return gulp.src(source.js)
+               .pipe(plumber())
+               .pipe(babel())
+               .pipe(uglify())
+               .pipe(gulp.dest(assets.js));
+}); 
