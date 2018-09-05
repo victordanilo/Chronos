@@ -1,15 +1,15 @@
 // load the gulp dependencies
-var del         = require('del');
-var each        = require('foreach');
-var gulp        = require('gulp');
-var rename      = require('gulp-rename');
-var babel       = require('gulp-babel');
-var uglify      = require('gulp-uglify');
-var plumber     = require('gulp-plumber');
-var sass        = require('gulp-sass');
-var sourcemaps  = require('gulp-sourcemaps');
-var prefixer    = require('gulp-autoprefixer');
-var imagemin    = require('gulp-imagemin');
+var del          = require('del');
+var each         = require('foreach');
+var gulp         = require('gulp');
+var rename       = require('gulp-rename');
+var plumber      = require('gulp-plumber');
+var babel        = require('gulp-babel');
+var uglify       = require('gulp-uglify');
+var sass         = require('gulp-sass');
+var sourcemaps   = require('gulp-sourcemaps');
+var prefixer     = require('gulp-autoprefixer');
+var imagemin     = require('gulp-imagemin');
 var environments = require('gulp-environments');
 
 // variables of environment
@@ -19,29 +19,36 @@ var development = environments.development;
 var production  = environments.production;
 
 // base directories path
-var dist   = '../public';
-var views  = '../application/views';
-var src    = './src';
-var vendor = './vendor';
+var dir = 
+{
+    public: '../public',
+    views:  '../application/views',
+    tests:  './tests',
+    src:    './src',
+    vendor: './vendor',
+    dist: function(){
+        return development() ? this.tests : this.public;
+    }
+}
 
 // assets path
 var assets = 
 {  
-    img:    dist + '/assets/img',
-    css:    dist + '/assets/css',
-    js:     dist + '/assets/js',
-    fonts:  dist + '/assets/fonts',
-    vendor: dist + '/assets/vendor'
+    img:    dir.dist() + '/assets/img',
+    css:    dir.dist() + '/assets/css',
+    js:     dir.dist() + '/assets/js',
+    fonts:  dir.dist() + '/assets/fonts',
+    vendor: dir.dist() + '/assets/vendor'
 }
 
 // source path
 var source = 
 {   
-    html:  src + '/html/**/*.html',
-    sass:  src + '/sass/**/*.scss',
-    js:    src + '/js/**/*.js',
-    img:   src + '/img/**/*.{jpg,png,gif,svg}',
-    fonts: src + '/fonts/*.{ttf,woff,eof,svg}'
+    html:  dir.src + '/html/**/*.html',
+    sass:  dir.src + '/sass/**/*.scss',
+    js:    dir.src + '/js/**/*.js',
+    img:   dir.src + '/img/**/*.{jpg,png,gif,svg}',
+    fonts: dir.src + '/fonts/*.{ttf,woff,eof,svg}'    
 }
 
 
@@ -113,7 +120,7 @@ gulp.task('clean-all', gulp.parallel('clean-img', 'clean-css', 'clean-js', 'clea
 gulp.task('views', function(){
     return gulp.src(source.html)
                .pipe(rename({extname: ".php"}))
-               .pipe(gulp.dest(views));
+               .pipe(gulp.dest(dir.views));
 });
 
 // compile sass files
