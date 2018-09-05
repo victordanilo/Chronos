@@ -1,4 +1,5 @@
 // load the gulp dependencies
+var del = require('del');
 var gulp = require('gulp');
 
 // variables
@@ -25,3 +26,47 @@ var source =
     img: src + '/img',
     fonts: src + '/fonts'    
 }
+
+
+// cleanup the image subdirectory of the assets directory
+gulp.task('clean-img',function(done){
+    var file = '/**';
+    var not = '!';
+    del.sync([assets.img+file, not+assets.img],{force:true});
+    done();
+});
+
+// cleanup the css subdirectory of the assets directory
+gulp.task('clean-css',function(done){
+    var file = '/**';
+    var not = '!';
+    del.sync([assets.css+file, not+assets.css],{force:true});
+    done();
+});
+
+// cleanup the js subdirectory of the assets directory
+gulp.task('clean-js',function(done){
+    var file = '/**';
+    var not = '!';
+    del.sync([assets.js+file, not+assets.js],{force:true});
+    done();
+});
+
+// cleanup the fonts subdirectory of the assets directory
+gulp.task('clean-fonts',function(done){
+    var file = '/**';
+    var not = '!';
+    del.sync([assets.fonts+file, not+assets.fonts],{force:true});
+    done();
+});
+
+// cleanup the vendor subdirectory of the assets directory
+gulp.task('clean-vendor',function(done){
+    var file = '/**';
+    var not = '!';
+    del.sync([assets.vendor+file, not+assets.vendor],{force:true});
+    done();
+});
+
+// cleanup the assets directory
+gulp.task('clean-all', gulp.parallel('clean-img', 'clean-css', 'clean-js', 'clean-fonts', 'clean-vendor'));
