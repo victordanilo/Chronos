@@ -131,3 +131,6 @@ gulp.task('watch-source', function(){
     gulp.watch(source.img, gulp.series('img'));
     gulp.watch(source.fonts, gulp.series('fonts'));
 });
+
+// build all source files
+gulp.task('build-source', gulp.parallel('views', 'compile-sass', 'compile-js', 'img', 'fonts'));
