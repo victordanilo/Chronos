@@ -108,3 +108,9 @@ gulp.task('img', function(){
                .pipe(imagemin())
                .pipe(gulp.dest(assets.img));
 });
+
+// load fonts files 
+gulp.task('fonts',function(){
+    return gulp.src(source.fonts)
+               .pipe(gulp.dest(assets.fonts));
+});
