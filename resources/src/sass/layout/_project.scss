@@ -1,0 +1,129 @@
+div#aside-content {
+
+  div#filter {
+    padding-bottom: 20px;
+
+    div#filter-buttons {
+      width: 100%;
+      height: 48px;
+      padding: 5px 20px;
+      background-color: color('secondary');
+      border-radius: 30px;
+      box-sizing: border-box;
+
+      a:hover, a:active, a.filter-active {
+        color: color('default');
+      }
+    }
+    div#filter-tags {
+      display: block;
+      width: 100%;
+      height: 25px;
+      position: relative;
+    }
+    div#filter-tags .tag {
+      width: calc(100% * 1 / 3.8);
+      height: auto;
+      margin: auto;
+      padding: 2px 5px;
+      left: 0;
+      right: 0;
+      background-color: color('blue');
+      border-radius: 30px;
+      position: absolute;
+
+      &:first-of-type {
+        left: 0;
+        right: auto;
+      }
+      &:last-of-type {
+        left: auto;
+        right: 0;
+      }
+
+      &-subtitle {
+        display: block;
+        width: 100%;
+        text-align: center;
+        font-size: 0.9em;
+        color: color('default');
+      }
+
+      &-close {
+        display: none;
+        padding: 4px;
+        right: -10px;
+        background-color: color('default');
+        border-radius: 50%;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+        transition: display 5s ease;
+        z-index: 8;
+      }
+
+      &:hover {
+        .tag-close {
+          display: block;
+        }
+      }
+    }
+  }
+
+  div#project-list {
+    width: calc(100% - 30px);
+    height: calc(100% - 170px);
+    padding-top: 15px;
+    padding-right: 10px;
+    padding-bottom: 80px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    position: absolute;
+
+    .project {
+      width: calc(100% - 5px);
+      padding: 10px 0;
+      position: relative;
+      border-bottom: 1px solid color('secondary');
+
+      .project-client {
+        display: block;
+        width: calc(100% - 100px);
+        padding-left: 10px;
+        padding-bottom: 4px;
+        color: color('text-muted');
+        font-size: .875rem;
+        line-height: 1rem;
+      }
+
+      .project-name {
+        display: block;
+        width: 100%;
+        padding-left: 5px;
+        color: color('default');
+        font-size: 1.15rem;
+        line-height: 1.375rem;
+      }
+
+      &:hover {
+        background-color: rgba(0,0,0,0.1);
+      }
+    }
+  }
+
+  @include screen-max-medium {
+    #btn-new-project {
+      top:auto;
+      left: auto;
+      right: 20px;
+      bottom: 60px;
+      position: fixed;
+    }
+  }
+
+  @include screen-medium {
+    #btn-new-project {
+      right: 20px;
+      bottom: 10px;
+      position: absolute;
+    }
+  }
+}
