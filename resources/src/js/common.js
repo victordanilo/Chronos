@@ -277,6 +277,11 @@ $(function () {
     // init
     md_form.init();
     button_radio.init();
+
+    // helpers
+    $(document).on('reset-scrolling','.not-scrolling',function () {
+        $(".not-scrolling").scrollTop(0);
+    }).trigger('reset-scrolling');
 });
 
 
