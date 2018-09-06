@@ -1,0 +1,32 @@
+//radio buttons
+.wrapper-radio{
+  display: inline-flex;
+  vertical-align: middle;
+  position: relative;
+
+  .radio {
+    display: inline-block;
+    width: auto;
+    height: auto;
+    margin: 0px;
+    padding: 5px 15px;
+    background-color: rgba(0,0,0,0.2);
+    color: color('default');
+
+    &:first-of-type {
+      border-radius: 5px 0 0 5px;
+    }
+    &:last-of-type {
+      border-radius: 0 5px 5px 0;
+    }
+
+    input[type=radio]{
+      display: none;
+    }
+
+    &.uk-active, input[type=radio]:checked {
+      background-color: color('primary');
+      color: color('default');
+    }
+  }
+}

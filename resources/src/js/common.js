@@ -260,9 +260,23 @@ $(function () {
             }
         }
     };
+    button_radio = {
+        init: function () {
+            $(document).on('click', "[button-radio] [type=radio]", function () {
+                var wrapper = $(this).parents('[button-radio]');
+                $(wrapper).find('.uk-active').removeClass('uk-active');
+                $(wrapper).find("input:checked").parent().addClass('uk-active');
+            });
+            $("[button-radio] [type=radio]:checked").trigger('click');
+        },
+        stop: function () {
+            $(document).off('click', "[button-radio] [type=radio]");
+        }
+    };
 
     // init
     md_form.init();
+    button_radio.init();
 });
 
 

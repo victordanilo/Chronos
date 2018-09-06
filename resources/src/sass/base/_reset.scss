@@ -13,3 +13,14 @@ html, body {
     box-sizing: border-box;
     background-color: color('muted');
 }
+
+button {
+    background-color: color('default');
+    color: color('gray');
+    cursor: pointer;
+    border: none;
+
+    &:focus {
+        outline:0;
+    }
+}
