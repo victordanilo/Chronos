@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="assets/vendor/uikit/css/uikit.min.css">
+    <link rel="stylesheet" href="assets/css/main.min.css">
+    <script src="assets/vendor/jquery/jquery.min.js"></script>
+    <script src="assets/vendor/uikit/js/uikit.min.js"></script>
+    <script src="assets/vendor/uikit/js/uikit-icons.min.js"></script>
+    <script src="assets/js/common.min.js"></script>
+    <script src="assets/js/main.min.js"></script>
+</head>
+<body>
+    <div class="uk-section uk-height-1-1 uk-padding-remove">
+        <nav id="menu">
+            <h3 class="title">Menu</h3>
+            <ul class="uk-iconnav uk-iconnav-vertical">
+                <li id="logo">
+                    <span uk-icon="icon: logo;"></span>
+                </li>
+                <li class="active">
+                    <a href="#" class="">
+                        <span class="indicator"></span>
+                        <span uk-icon="icon: grid"></span>
+                        <span class="subtitle">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="indicator"></span>
+                        <span class="" uk-icon="icon: bolt"></span>
+                        <span class="subtitle">Project</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="indicator"></span>
+                        <span uk-icon="icon: comment"></span>
+                        <span class="subtitle">Messenger</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="indicator"></span>
+                        <span uk-icon="icon: users"></span>
+                        <span class="subtitle">Clients</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="indicator"></span>
+                        <span uk-icon="icon: settings"></span>
+                        <span class="subtitle">Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="notify">
+            <h3 class="title">Notifications</h3>
+        </div>
+
+        <aside class="expand">
+            <div id="aside-title">
+                <a class="controls-nav" href="#" uk-icon="icon: arrow-left"></a>
+                <h3>Dashboard</h3>
+            </div>
+            <div id="aside-content">
+            </div>
+        </aside>
+
+        <main class="collapse">
+            <div id="main-title">
+                <a class="controls-nav" href="#" uk-icon="icon: arrow-left"></a>
+                <h3></h3>
+            </div>
+            <div id="main-content">
+            </div>
+        </main>
+
+        <nav id="dock" class="uk-width-1-1 uk-hidden@s">
+            <ul class="uk-iconnav">
+                <li id="open-menu" data="menu" class="uk-width-expand">
+                    <span uk-icon="icon: menu; ratio:1.3"></span>
+                    <span class="indicator"></span>
+                </li>
+                <li id="open-notify" data="notify" class="uk-width-expand">
+                    <span uk-icon="icon: bell; ratio:1.3"></span>
+                    <span class="indicator"></span>
+                </li>
+                <li class="uk-width-expand">
+                    <span uk-icon="icon: comment;ratio:1.3"></span>
+                    <span class="indicator"></span>
+                </li>
+                <li class="uk-width-expand">
+                    <span uk-icon="icon: bolt; ratio:1.3"></span>
+                    <span class="indicator"></span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</body>
+</html>
