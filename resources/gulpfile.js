@@ -206,8 +206,9 @@ gulp.task('build-source', gulp.parallel('views', 'compile-sass', 'compile-js', '
 // load the dependencies of the project
 gulp.task('load-dependencies',function(done){
     var path_dependencies = {
-        'uikit'  : '/uikit/dist/**/*.{min.css,min.js}',
-        'jquery' : '/jquery/dist/jquery.min.js'
+        'uikit'        : '/uikit/dist/**/*.{min.css,min.js}',
+        'jquery'       : '/jquery/dist/jquery.min.js',
+        'mustache.js'  : '/mustache.js/mustache.min.js'
     };
     each(bower.dependencies,function(version,name){
         gulp.src(path.vendor + path_dependencies[name])
