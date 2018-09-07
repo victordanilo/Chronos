@@ -185,16 +185,34 @@ div#main-content {
   .task-date, .task-time {
     width: auto;
     padding: 8px 10px;
-    border-radius: 10px;
-    background-color: color('smoke');
+    border-radius: 6px;
+    background-color: #ecf0f199;
     box-sizing: content-box;
     position: relative;
 
-    &.active div {
+    &.expand div {
       display: inline-block !important;
     }
+    &.active {
+      border: 1px solid color('primary');
+      box-shadow: 0px 0px 6px rgba(30, 135, 240, 0.3);
+    }
 
-    span {
+    input{
+      display: inline;
+      border: none;
+      background: none;
+      text-align: center;
+
+      &:focus, &:active{
+        border: none !important;
+        background: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+      }
+    }
+
+    span, input {
       color: color('text-secondary');
     }
 
@@ -202,15 +220,23 @@ div#main-content {
       display: none !important;
     }
 
-    div > span {
+    div > span, input {
       padding-left: 2px;
       vertical-align: middle;
+      font-size: 1em;
+      @extend .no-select;
     }
 
-    div > a {
-      padding-left: 2px;
+    div > a.uk-close {
+      display: inline;
       color: color('red');
     }
+  }
+  .task-date input {
+    width: 65px;
+  }
+  .task-time input {
+    width: 65px;
   }
 
   #open-new-task {

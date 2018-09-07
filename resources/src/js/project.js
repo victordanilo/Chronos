@@ -2,6 +2,7 @@ $(function () {
     task = {
         init: function () {
             this.status.init();
+            this.date.init();
 
             // open bar new task
             $(document).on('click', "#open-new-task", function () {
@@ -17,6 +18,7 @@ $(function () {
         },
         stop: function () {
             this.status.stop();
+            this.date.stop();
 
             $(document).off('click', "#open-new-task");
             $(document).off('click', '#btn-task-close');
@@ -325,6 +327,67 @@ $(function () {
                     this.close_edit_status(edit_status);
             }
         },
+        date: {
+            init: function () {
+                //init date now
+                $("#task-date-input").val(moment().format("DD/MM/YY"));
+
+                // set datepicker
+                $('#task-date-input').datepicker({
+                    beforeShow: function (input, inst) {
+                        var task_date = $('#task-date-btn-open');
+                        var has_expand = task_date.hasClass('expand');
+                        var has_active = task_date.hasClass('active');
+                        if(!has_active)
+                            task_date.addClass('active');
+
+                        $.datepicker._findPos = function () {
+                            position = has_expand ? $(input).offset() : $(task_date).offset();
+                            position.top = has_expand ? position.top + 11 : position.top + 42;
+                            position.left = has_expand ? position.left - (300/3) - 35 : position.left - (300/2);
+
+                            return [position.left, position.top];
+                        };
+                    },
+                    onClose: function () {
+                        var task_date = $('#task-date-btn-open');
+                        var task_date_val = $("#task-date-input").val();
+                        var has_expand = task_date.hasClass('expand');
+
+                        // has task date expand
+                        if(!has_expand && !empty(task_date_val))
+                            task_date.addClass('expand');
+
+                        // blur task date
+                        task_date.removeClass('active');
+
+                        // close overlay mobile
+                        overlay.close();
+                    }
+                });
+
+                // open datepick
+                $('#task-date-btn-open, #task-date-input').click(function () {
+                    task.date.open();
+                });
+
+                //close task date
+                $("#task-date-btn-close").click(function () {
+                    task.date.close();
+                    return false;
+                });
+            },
+            stop: function () {
+
+            },
+            open: function () {
+                $('#task-date-input').datepicker('show');
+            },
+            close: function () {
+                $('#task-date-btn-open').removeClass('expand');
+                $("#task-date-input").val('');
+            }
+        }
     };
 
     // init
