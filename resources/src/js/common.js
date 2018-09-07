@@ -493,6 +493,38 @@ function redirect(url) {
 }
 
 /**
+ * search in array/json returns the first corresponding value
+ *
+ * @param {*} value
+ * @param {string} key
+ * @param {array} myArray
+ * @returns {*}
+ */
+function search_array(value, key, myArray){
+    var o = false;
+
+    $.each(myArray, function (i, item) {
+        if(eval("item."+key) == value)
+            o = item;
+    });
+
+    return o;
+}
+
+/**
+ * Generate a random integer between min and max
+ *
+ * @param {number} min
+ * @param {number} max
+ * @returns {number}
+ */
+function random(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+/**
  * Prototype of global object String for capitalizing the string
  *
  * @example
