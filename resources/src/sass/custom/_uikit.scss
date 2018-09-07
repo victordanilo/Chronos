@@ -51,3 +51,13 @@
 .uk-dropdown {
   min-width: 150px !important;
 }
+
+
+// modal
+.uk-modal-full {
+  margin-right: -10px;
+
+  @include screen-small {
+    margin-right: 0px;
+  }
+}
