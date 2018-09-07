@@ -14,6 +14,10 @@ html, body {
     background-color: color('muted');
 }
 
+h1, h2, h3, h4, h5 {
+  user-select: none;
+}
+
 button {
     background-color: color('default');
     color: color('gray');
