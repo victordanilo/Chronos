@@ -52,8 +52,11 @@ var source =
         files: path.src + '/html/**/*.html'
     },
     sass: {
-        path:  path.src + '/sass',
-        files: path.src + '/sass/**/*.scss'
+        path:   path.src + '/sass',
+        files:  path.src + '/sass/**/*.scss',
+        core:   ['!'+path.src+'/sass/vendor/*.scss', '!'+path.src+'/sass/layouts/*.scss', path.src+'/sass/layouts/_base.scss', path.src+'/sass/**/*.scss'],
+        pages:  [path.src + '/sass/layouts/*.scss'],
+        vendor: [path.src + '/sass/vendor/*.scss']
     },
     js: {
         path:  path.src + '/js',
@@ -151,7 +154,7 @@ gulp.task('views', function(){
 });
 
 // compile sass files
-gulp.task('compile-sass',function(){
+gulp.task('compile-sass-core',function(){
     return gulp.src(source.sass.path + '/main.scss')
                .pipe(plumber())
                .pipe(development(sourcemaps.init()))
@@ -163,6 +166,19 @@ gulp.task('compile-sass',function(){
                .pipe(gulp.dest(assets.css))
                .pipe(browserSync.stream());
 });
+gulp.task('compile-sass-pages',function(){
+    return gulp.src(source.sass.pages)
+               .pipe(plumber())
+               .pipe(development(sourcemaps.init()))
+               .pipe(development(sass()))
+               .pipe(production(sass({outputStyle:'compressed'})))
+               .pipe(prefixer({browsers: ['> 1%', 'last 2 versions', 'firefox >= 4', 'safari 7', 'safari 8', 'IE 8', 'IE 9', 'IE 10', 'IE 11']}))
+               .pipe(development(sourcemaps.write('.')))
+               .pipe(rename({suffix:'.min'}))
+               .pipe(gulp.dest(assets.css))
+               .pipe(browserSync.stream());
+});
+gulp.task('compile-sass', gulp.parallel('compile-sass-core','compile-sass-pages'));
 
 // compile javascript files
 gulp.task('compile-js',function(){
@@ -194,7 +210,8 @@ gulp.task('fonts',function(){
 // watch the changes in source files
 gulp.task('watch-source', function(){
     gulp.watch(source.html.files,  gulp.series('views'));
-    gulp.watch(source.sass.files,  gulp.series('compile-sass'));
+    gulp.watch(source.sass.core,   gulp.series('compile-sass-core'));
+    gulp.watch(source.sass.pages,  gulp.series('compile-sass-pages'));
     gulp.watch(source.js.files,    gulp.series('compile-js'));
     gulp.watch(source.img.files,   gulp.series('img'));
     gulp.watch(source.fonts.files, gulp.series('fonts'));
@@ -265,7 +282,8 @@ gulp.task('server', gulp.series('clean-tests', 'set-env-dev', 'load-dependencies
     });
 
     gulp.watch(source.html.files,  gulp.parallel('views')).on('change',browserSync.reload);
-    gulp.watch(source.sass.files,  gulp.parallel('compile-sass'));
+    gulp.watch(source.sass.core,   gulp.parallel('compile-sass-core'));
+    gulp.watch(source.sass.pages,  gulp.parallel('compile-sass-pages'));
     gulp.watch(source.js.files,    gulp.parallel('compile-js'));
     gulp.watch(source.img.files,   gulp.parallel('img'));
     gulp.watch(source.fonts.files, gulp.parallel('fonts'));
