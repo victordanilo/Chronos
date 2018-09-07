@@ -428,6 +428,15 @@ $(function () {
     dropdown.init();
 
     // helpers
+    overlay = {
+        open : function () {
+            $overlay = $('<div/>',{id:'overlay'});
+            $('body').append($overlay);
+        },
+        close : function () {
+            $('#overlay').remove();
+        }
+    }
     $(document).on('reset-scrolling','.not-scrolling',function () {
         $(".not-scrolling").scrollTop(0);
     }).trigger('reset-scrolling');
