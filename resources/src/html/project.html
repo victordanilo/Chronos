@@ -145,10 +145,21 @@
                         <div id="create-task">
                             <input type="text" name="task_name" id="task-input-name" placeholder="Task name">
 
-                            <button class="task-status bg-color-red">
+                            <button class="task-status" bg-color="red" status-id="1" dropdown>
                                 <span class="task-status-icon" uk-icon="icon:tag"></span>
                                 <span class="task-status-name">Backlog</span>
                             </button>
+                            <div class="dropdown">
+                                <div class="dropdown-header">
+                                    <h3 class="dropdown-title">Status</h3>
+                                    <a href="#" class="dropdown-close uk-close-large uk-position-center-right" uk-close></a>
+                                </div>
+                                <div class="dropdown-content scrollbar-small scrollbar-round">
+                                    <ul class="status-list uk-list">
+                                    </ul>
+                                    <a href="#new-status" id="open-new-status" class="uk-icon-button" uk-icon="plus" uk-toggle></a>
+                                </div>
+                            </div>
 
                             <div class="task-date-time-wrapper">
                                 <div class="task-date active">
@@ -193,10 +204,21 @@
                             <div class="task-content">
                                 <span class="task-name">Implement time-tracking</span>
 
-                                <button class="task-status bg-color-yellow">
+                                <button class="task-status" bg-color="yellow" status-id="2" dropdown>
                                     <span class="task-status-icon" uk-icon="icon:tag"></span>
                                     <span class="task-status-name">To Do</span>
                                 </button>
+                                <div class="dropdown not-task-content">
+                                    <div class="dropdown-header">
+                                        <h3 class="dropdown-title">Status</h3>
+                                        <a href="#" class="dropdown-close uk-close-large uk-position-center-right" uk-close></a>
+                                    </div>
+                                    <div class="dropdown-content scrollbar-small scrollbar-round">
+                                        <ul class="status-list uk-list">
+                                        </ul>
+                                        <a href="#new-status" id="open-new-status" class="uk-icon-button" uk-icon="plus" uk-toggle></a>
+                                    </div>
+                                </div>
 
                                 <div class="task-date active">
                                     <span uk-icon="icon: calendar"></span>
@@ -231,10 +253,21 @@
                             <div class="task-content">
                                 <span class="task-name">Implement kanban board</span>
 
-                                <button class="task-status bg-color-red">
+                                <button class="task-status" bg-color="red" status-id="1" dropdown>
                                     <span class="task-status-icon" uk-icon="icon:tag"></span>
                                     <span class="task-status-name">Backlog</span>
                                 </button>
+                                <div class="dropdown not-task-content">
+                                    <div class="dropdown-header">
+                                        <h3 class="dropdown-title">Status</h3>
+                                        <a href="#" class="dropdown-close uk-close-large uk-position-center-right" uk-close></a>
+                                    </div>
+                                    <div class="dropdown-content scrollbar-small scrollbar-round">
+                                        <ul class="status-list uk-list">
+                                        </ul>
+                                        <a href="#new-status" id="open-new-status" class="uk-icon-button" uk-icon="plus" uk-toggle></a>
+                                    </div>
+                                </div>
 
                                 <div class="task-date active">
                                     <span uk-icon="icon: calendar"></span>
@@ -269,10 +302,21 @@
                             <div class="task-content">
                                 <span class="task-name">Implement to-do board</span>
 
-                                <button class="task-status bg-color-red">
+                                <button class="task-status" bg-color="red" status-id="1" dropdown>
                                     <span class="task-status-icon" uk-icon="icon:tag"></span>
                                     <span class="task-status-name">Backlog</span>
                                 </button>
+                                <div class="dropdown not-task-content">
+                                    <div class="dropdown-header">
+                                        <h3 class="dropdown-title">Status</h3>
+                                        <a href="#" class="dropdown-close uk-close-large uk-position-center-right" uk-close></a>
+                                    </div>
+                                    <div class="dropdown-content scrollbar-small scrollbar-round">
+                                        <ul class="status-list uk-list">
+                                        </ul>
+                                        <a href="#new-status" id="open-new-status" class="uk-icon-button" uk-icon="plus" uk-toggle></a>
+                                    </div>
+                                </div>
 
                                 <div class="task-date active">
                                     <span uk-icon="icon: calendar"></span>
@@ -307,10 +351,21 @@
                             <div class="task-content">
                                 <span class="task-name">Implement team manager</span>
 
-                                <button class="task-status bg-color-red">
+                                <button class="task-status" bg-color="red" status-id="1" dropdown>
                                     <span class="task-status-icon" uk-icon="icon:tag"></span>
                                     <span class="task-status-name">Backlog</span>
                                 </button>
+                                <div class="dropdown not-task-content">
+                                    <div class="dropdown-header">
+                                        <h3 class="dropdown-title">Status</h3>
+                                        <a href="#" class="dropdown-close uk-close-large uk-position-center-right" uk-close></a>
+                                    </div>
+                                    <div class="dropdown-content scrollbar-small scrollbar-round">
+                                        <ul class="status-list uk-list">
+                                        </ul>
+                                        <a href="#new-status" id="open-new-status" class="uk-icon-button" uk-icon="plus" uk-toggle></a>
+                                    </div>
+                                </div>
 
                                 <div class="task-date active">
                                     <span uk-icon="icon: calendar"></span>
@@ -345,10 +400,21 @@
                             <div class="task-content">
                                 <span class="task-name">Implement messeger</span>
 
-                                <button class="task-status bg-color-red">
+                                <button class="task-status" bg-color="red" status-id="1" dropdown>
                                     <span class="task-status-icon" uk-icon="icon:tag"></span>
                                     <span class="task-status-name">Backlog</span>
                                 </button>
+                                <div class="dropdown not-task-content">
+                                    <div class="dropdown-header">
+                                        <h3 class="dropdown-title">Status</h3>
+                                        <a href="#" class="dropdown-close uk-close-large uk-position-center-right" uk-close></a>
+                                    </div>
+                                    <div class="dropdown-content scrollbar-small scrollbar-round">
+                                        <ul class="status-list uk-list">
+                                        </ul>
+                                        <a href="#new-status" id="open-new-status" class="uk-icon-button" uk-icon="plus" uk-toggle></a>
+                                    </div>
+                                </div>
 
                                 <div class="task-date active">
                                     <span uk-icon="icon: calendar"></span>
@@ -383,10 +449,21 @@
                             <div class="task-content">
                                 <span class="task-name">Implement reports</span>
 
-                                <button class="task-status bg-color-red">
+                                <button class="task-status" bg-color="red" status-id="1" dropdown>
                                     <span class="task-status-icon" uk-icon="icon:tag"></span>
                                     <span class="task-status-name">Backlog</span>
                                 </button>
+                                <div class="dropdown not-task-content">
+                                    <div class="dropdown-header">
+                                        <h3 class="dropdown-title">Status</h3>
+                                        <a href="#" class="dropdown-close uk-close-large uk-position-center-right" uk-close></a>
+                                    </div>
+                                    <div class="dropdown-content scrollbar-small scrollbar-round">
+                                        <ul class="status-list uk-list">
+                                        </ul>
+                                        <a href="#new-status" id="open-new-status" class="uk-icon-button" uk-icon="plus" uk-toggle></a>
+                                    </div>
+                                </div>
 
                                 <div class="task-date active">
                                     <span uk-icon="icon: calendar"></span>
@@ -444,6 +521,59 @@
                 </li>
             </ul>
         </nav>
+    </div>
+
+    <!-- templates mustache -->
+    <script id="status_item_template" type="x-tmpl-mustache">
+        <li status-id="{{status_id}}" class="status-list-item {{status_active}}">
+            <span class="status-name">{{status_name}}</span>
+            <span class="status-indicator" bg-color="{{status_color}}"><span uk-icon="check2"></span></span>
+            <button class="status-btn-more uk-icon-button" uk-icon="more"></button>
+            <button class="status-btn-confirm-edit uk-icon-button" uk-icon="check"></button>
+            <div class="status-more-options-wrapper">
+                <div class="status-more-options-content">
+                    <button class="status-edit uk-icon-button" uk-icon="pencil"></button>
+                    <button class="status-remove uk-icon-button" uk-icon="trash"></button>
+                    <button class="status-change-color uk-icon-button" uk-icon="paint-bucket"></button>
+                    <button class="status-more-options-close uk-icon-button" uk-close></button>
+                </div>
+            </div>
+            <div class="palette-colors-wrapper">
+                <ul class="palette-colors-content">
+                    <li bg-color="midnight"></li>
+                    <li bg-color="turquoise"></li>
+                    <li bg-color="blue"></li>
+                    <li bg-color="purple"></li>
+                    <li bg-color="pink"></li>
+                    <li bg-color="red"></li>
+                    <li bg-color="orange"></li>
+                    <li bg-color="yellow"></li>
+                </ul>
+            </div>
+        </li>
+    </script>
+    <!-- templates mustache -->
+
+    <div id="new-status" class="uk-modal-full uk-modal" uk-modal>
+        <div class="uk-modal-dialog uk-flex uk-flex-center uk-flex-middle" uk-height-viewport>
+            <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
+            <div class="uk-search uk-search-large" id="new-status-content">
+                <input id="new-status-input" class="uk-search-input" type="text" placeholder="Status name" autofocus>
+
+                <ul class="palette-colors">
+                    <li bg-color="midnight"></li>
+                    <li bg-color="turquoise"></li>
+                    <li bg-color="blue"></li>
+                    <li bg-color="purple"></li>
+                    <li bg-color="pink"></li>
+                    <li bg-color="red"></li>
+                    <li bg-color="orange"></li>
+                    <li bg-color="yellow"></li>
+                </ul>
+
+                <button id="new-status-save" class="uk-button uk-button-primary uk-width-1-1 uk-margin-top">Save</button>
+            </div>
+        </div>
     </div>
 </body>
 </html>

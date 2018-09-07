@@ -1,0 +1,27 @@
+[
+  {
+    "id": "1",
+    "name": "Backlog",
+    "color": "red"
+  },
+  {
+    "id": "2",
+    "name": "To Do",
+    "color": "yellow"
+  },
+  {
+    "id": "3",
+    "name": "Implement",
+    "color": "turquoise"
+  },
+  {
+    "id": "4",
+    "name": "Testing",
+    "color": "blue"
+  },
+  {
+    "id": "5",
+    "name": "Done",
+    "color": "midnight"
+  }
+]

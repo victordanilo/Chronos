@@ -551,3 +551,261 @@ div#main-content {
     }
   }
 }
+
+
+// dropdown status-list
+$status-item-height: 38px;
+.status-list {
+  margin-bottom: 0px;
+}
+.status-list-item {
+  background-color: color('default');
+  width: 100%;
+  height: $status-item-height;
+  margin: 0px !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  border-bottom: 1px solid color('smoke');
+  position: relative;
+
+  &.active {
+    span.status-indicator span.uk-icon {
+      display: block !important;
+    }
+  }
+
+  &.edit {
+    span.status-name {
+      width: calc(100% - 40px);
+      height: 32px;
+      background-color: color('muted');
+      box-shadow: inset 0px 0px 3px rgba(0,0,0,0.3);
+    }
+
+    span.status-indicator{
+      display: none;
+    }
+
+    button.status-btn-more {
+      display: none;
+    }
+
+    button.status-btn-confirm-edit {
+      display: block;
+    }
+  }
+
+  & > * {
+    display: inline-block;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+  }
+
+  &:last-of-type {
+    border-bottom: 0px;
+  }
+
+
+  span.status-name {
+    width: calc(100% - 75px);
+    height: 30px;
+    padding-left: 4px;
+    left: 0;
+    right: auto;
+    font-size: 1.2em;
+    vertical-align: middle;
+    line-height: 28px;
+    user-select: none;
+    color: color('gray-dark');
+    @include text-truncate;
+  }
+
+  span.status-indicator {
+    width: 24px;
+    height: 24px;
+    left: auto;
+    right: 40px;
+    border-radius: 50%;
+
+    span.uk-icon {
+      display: none;
+      width: 16px;
+      height: 16px;
+      color: color('default');
+      margin: auto;
+      top: 0;
+      right: 2px;
+      left: 0;
+      bottom: 0;
+      position: absolute;
+    }
+  }
+
+  button.status-btn-confirm-edit {
+    display: none;
+    width: 32px;
+    height: 32px;
+    left: auto;
+    right: 0;
+    background: color('success');
+    color: color('default');
+  }
+
+  button.status-btn-more {
+    width: 32px;
+    height: 32px;
+    left: auto;
+    right: 0;
+    background: color('smoke');
+    color: color('gray');
+  }
+
+  div.status-more-options-wrapper {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,0.85);
+    top: 0px;
+    left: 0px;
+    box-sizing: border-box;
+    position: absolute;
+
+    &.active {
+      display: block;
+    }
+
+    div.status-more-options-content {
+      display: table;
+      margin: auto;
+      top: 0;
+      left: auto;
+      right: 0;
+      bottom: 0;
+      position: absolute;
+
+      & > *{
+        background-color: color('smoke');
+        margin-right: 8px;
+      }
+    }
+
+    button.status-more-options-close {
+      background-color: color('red');
+      color: color('default');
+      margin-right: 0px;
+    }
+  }
+
+  div.palette-colors-wrapper {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: color('default');
+    top: 0px;
+    left: 0px;
+    box-sizing: border-box;
+    position: absolute;
+
+    &.active {
+      display: block;
+    }
+
+    ul.palette-colors-content {
+      display: block;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      padding: 5px 6px;
+
+      li {
+        display: inline-block;
+        width: calc(100% * 1 / 8);
+        height: 100%;
+        float: left;
+        position: relative;
+      }
+
+      li span.uk-icon {
+        display: table;
+        width: 100%;
+        height: 100%;
+        color: color('default');
+        text-align: center;
+        line-height: $status-item-height;
+      }
+    }
+  }
+
+
+  @include screen-medium {
+    width: 200px;
+  }
+}
+#open-new-status {
+  width: 100%;
+  height: 32px;
+  margin-top: 5px;
+}
+#new-status {
+
+  #new-status-content{
+    padding: 20px;
+    position: relative;
+  }
+
+  #new-status-input {
+    font-size: 2.5rem;
+  }
+
+  .palette-colors {
+    display: table;
+    width: 100%;
+    height: 60px;
+    margin: auto;
+    padding: 0px;
+    list-style: none;
+    box-sizing: border-box;
+    position: relative;
+
+    li {
+      display: inline-block;
+      width: calc(100% * 1 / 8);
+      height: 100%;
+      margin: 0px !important;
+      padding: 0px !important;
+      position: relative;
+
+      &.active:after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        top: 0px;
+        left: 0px;
+        background-color: #000;
+        opacity: 0.20;
+        position: absolute;
+      }
+
+      span.uk-icon {
+        color: color('default');
+        z-index: 1;
+
+        svg {
+          width: 32px;
+          height: 32px;
+        }
+      }
+    }
+  }
+
+  @include screen-medium {
+    #new-status-save {
+      padding: 0 40px;
+      line-height: 50px;
+      font-size: .975rem;
+    }
+  }
+}
