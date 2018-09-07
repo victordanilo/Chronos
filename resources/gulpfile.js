@@ -226,6 +226,7 @@ gulp.task('load-dependencies',function(done){
     var path_dependencies = {
         'uikit'        : '/uikit/dist/**/*.{min.css,min.js}',
         'jquery'       : '/jquery/dist/jquery.min.js',
+        'jquery-ui'    : '/jquery-ui/{jquery-ui.min.js,themes/base/jquery-ui.min.css}',
         'mustache.js'  : '/mustache.js/mustache.min.js'
     };
     each(bower.dependencies,function(version,name){

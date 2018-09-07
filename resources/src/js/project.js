@@ -331,4 +331,32 @@ $(function () {
     task.init();
 });
 
+// set data initial
 status_list = [];
+
+// custom datepicker
+$.datepicker.setDefaults({
+    dateFormat: 'dd/mm/y',
+    beforeShow: function (input, inst) {
+        $(input).prop('disabled', true);
+    },
+    onClose: function () {
+        var inst = $.datepicker._curInst;
+        $(inst.input).prop('disabled', false);
+
+        overlay.close();
+    }
+});
+$.datepicker._pre_generateHTML = $.datepicker._generateHTML;
+$.datepicker._generateHTML = function (inst) {
+    var html = this._pre_generateHTML(inst);
+    html = html.replace('<span class=\'ui-icon ui-icon-circle-triangle-w\'>Prev</span>','<span uk-icon="icon:chevron-left; ratio: 1.4"></span>');
+    html = html.replace('<span class=\'ui-icon ui-icon-circle-triangle-e\'>Next</span>','<span uk-icon="icon:chevron-right; ratio: 1.4"></span>');
+
+    if($(window).width() < 960) {
+        $("#ui-datepicker-div").addClass('fullscreen');
+        overlay.open();
+    }
+
+    return html;
+};
