@@ -250,8 +250,14 @@ gulp.task('build-custom-uikit-icons', function(done){
 gulp.task('build-custom-uikit', gulp.parallel('build-custom-uikit-sass', 'build-custom-uikit-js', 'build-custom-uikit-icons'));
 
 
+// load data
+gulp.task('load-data', function(){
+    return gulp.src(path.src + '/data/**')
+        .pipe(gulp.dest(path.tests + "/data/"));
+});
+
 // set up a local testing server
-gulp.task('server', gulp.series('clean-tests', 'set-env-dev', 'load-dependencies', 'build-source', 'build-custom-uikit-icons',function(){
+gulp.task('server', gulp.series('clean-tests', 'set-env-dev', 'load-dependencies', 'build-source', 'build-custom-uikit-icons', 'load-data', function(){
     browserSync.init({
         server:{
             baseDir: path.tests
