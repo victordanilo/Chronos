@@ -273,10 +273,159 @@ $(function () {
             $(document).off('click', "[button-radio] [type=radio]");
         }
     };
+    dropdown = {
+        _this: null,
+        _target: null,
+        _options: null,
+        _offset: null,
+
+        construct: function ($this) {
+            dropdown._this = $this;
+            dropdown._options = UIkit.util.parseOptions($this.attr('dropdown'));
+            dropdown._target = $this.siblings('.dropdown');
+            dropdown._offset = dropdown.offset();
+        },
+        init: function () {
+            // init dropdown
+            $(document).on('click', '[dropdown]', function () {
+                dropdown.construct($(this));
+                dropdown.position();
+                dropdown.toggle();
+            });
+
+            // close dropdown
+            $(document).on('click', '.dropdown .dropdown-close', function () {
+                dropdown.close();
+            });
+
+            $(document).on('open-dropdown', function () {
+                $(document).on('click.dropdown', 'body', function (event) {
+                    var status = $(event.target).closest(dropdown._target[0]).length;
+
+                    if (!status)
+                        dropdown.close();
+                });
+            });
+
+            $(document).on('close-dropdown', function () {
+                $(document).off('click.dropdown', 'body');
+            });
+        },
+        stop: function () {
+            $(document).off('click', '[dropdown]');
+            $(document).off('click', '.drop-close');
+        },
+        open: function (target) {
+            target = !empty(target) ? target : this._target;
+
+            $(document).trigger('open-dropdown');
+            target.css('display', 'table');
+            $('body').addClass('open-dropdown');
+        },
+        close: function (target) {
+            target = !empty(target) ? target : this._target;
+
+            $(document).trigger('close-dropdown');
+            target.hide();
+            $('body').removeClass('open-dropdown');
+        },
+        toggle: function () {
+            if (empty(this._this))
+                return;
+
+            var target = this._target;
+            var status = target.is(":hidden");
+
+            if (status) {
+                this.refresh();
+                this.open();
+            }
+            else
+                this.close();
+        },
+        offset: function () {
+            if (empty(this._this))
+                return;
+
+            var $this = this._this;
+            var width = $this.outerWidth();
+            var height = $this.outerHeight();
+            var top = $this.position().top + height;
+            var left = $this.position().left;
+            var right = $this.parent().width() - ($this.position().left + width);
+            var bottom = $this.position().top + height;
+
+            return {width: width, height: height, top: top, left: left, right: right, bottom: bottom};
+        },
+        position: function () {
+            if (empty(this._this))
+                return;
+
+            var $this = this._this;
+            var target = this._target;
+            var offset = this._offset;
+            var options = this._options;
+            var pos = this.pos(options.pos);
+
+            if (pos.y === 'top')
+                offset.top = 'auto';
+            if (pos.x === 'right')
+                offset.left = 'auto';
+            else if (pos.x === 'left')
+                offset.right = 'auto';
+            else {
+                offset.left -= (target.outerWidth() - offset.width) / 2;
+                offset.right = 'auto';
+            }
+
+            target.css({top: offset.top, left: offset.left, right: offset.right, bottom: offset.bottom});
+        },
+        pos: function (pos) {
+            if (empty(this._this))
+                return;
+
+            var offset = this._offset;
+            var target = this._target;
+            var x = /left|center|right/;
+            var y = /top|bottom/;
+            var result = {x: 'center', y: 'bottom'};
+
+            pos = (pos || '').split('-');
+
+            if (x.test(pos[0]))
+                result.x = pos[0];
+            else if (y.test(pos[0]))
+                result.y = pos[0];
+
+            if (y.test(pos[1]))
+                result.y = pos[1];
+            else if (x.test(pos[1]))
+                result.x = pos[1];
+
+            // fix position
+            if (result.x !== 'center') {
+                var flip_x = UIkit.util.flipPosition(result.x);
+                if (eval('offset.' + flip_x) <= target.width)
+                    result.x = flip_x;
+            }
+
+            return result;
+        },
+        refresh: function () {
+            if (empty(this._this))
+                return;
+
+            var status = $('.dropdown').not(this._target).is(":visible");
+
+            if (status)
+                this.close($('.dropdown').not(this._target))
+        }
+    };
 
     // init
     md_form.init();
     button_radio.init();
+    dropdown.init();
 
     // helpers
     $(document).on('reset-scrolling','.not-scrolling',function () {
