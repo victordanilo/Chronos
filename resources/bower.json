@@ -21,6 +21,7 @@
     "uikit": "v3.0.0-rc.19",
     "jquery": "3.2.1",
     "jquery-ui": "^1.12.1",
+    "jquery-mask-plugin": "^1.14.15",
     "mustache.js": "mustache#^3.0.1",
     "moment": "^2.24.0"
   }

@@ -329,6 +329,11 @@ $(function () {
 
     // init
     task.init();
+
+    // set mask
+    $('.date').mask('00/00/00');
+    $('.time').mask('00:00:00');
+    $('.date_time').mask('00/00/0000 00:00:00');
 });
 
 // set data initial
