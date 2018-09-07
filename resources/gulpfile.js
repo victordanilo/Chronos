@@ -59,8 +59,9 @@ var source =
         vendor: [path.src + '/sass/vendor/*.scss']
     },
     js: {
-        path:  path.src + '/js',
-        files: path.src + '/js/**/*.js',
+        path:   path.src + '/js',
+        files:  [path.src + '/js/**/*.js', '!' + path.src + '/js/vendor/*.js'],
+        vendor: path.src + '/js/vendor/*.js'
     },
     img: {
         path:  path.src + '/img',
@@ -182,7 +183,7 @@ gulp.task('compile-sass', gulp.parallel('compile-sass-core','compile-sass-pages'
 
 // compile javascript files
 gulp.task('compile-js',function(){
-    return gulp.src([source.js.files, '!' + source.js.path + '/vendor/*.js'])
+    return gulp.src(source.js.files)
                .pipe(plumber())
                .pipe(babel())
                .pipe(production(uglify()))
