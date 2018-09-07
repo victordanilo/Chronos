@@ -205,8 +205,12 @@ gulp.task('build-source', gulp.parallel('views', 'compile-sass', 'compile-js', '
 
 // load the dependencies of the project
 gulp.task('load-dependencies',function(done){
+    var path_dependencies = {
+        'uikit'  : '/uikit/dist/**/*.{min.css,min.js}',
+        'jquery' : '/jquery/dist/jquery.min.js'
+    };
     each(bower.dependencies,function(version,name){
-        gulp.src('./vendor/' + name + '/dist/**/*.{min.css,min.js}')
+        gulp.src(path.vendor + path_dependencies[name])
             .pipe(gulp.dest(assets.vendor +'/'+ name +'/'));
     });
     done();
