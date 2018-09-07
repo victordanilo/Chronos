@@ -227,7 +227,8 @@ gulp.task('load-dependencies',function(done){
         'uikit'        : '/uikit/dist/**/*.{min.css,min.js}',
         'jquery'       : '/jquery/dist/jquery.min.js',
         'jquery-ui'    : '/jquery-ui/{jquery-ui.min.js,themes/base/jquery-ui.min.css}',
-        'mustache.js'  : '/mustache.js/mustache.min.js'
+        'mustache.js'  : '/mustache.js/mustache.min.js',
+        'moment'       : '/moment/min/moment.min.js'
     };
     each(bower.dependencies,function(version,name){
         gulp.src(path.vendor + path_dependencies[name])
