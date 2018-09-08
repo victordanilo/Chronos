@@ -1,4 +1,207 @@
 $(function () {
+    project = {
+        init: function () {
+            this.filter.init();
+            this.list.init();
+        },
+        stop: function () {
+            this.filter.stop();
+            this.list.stop();
+        },
+        filter: {
+            init: function () {
+                this.search.init();
+                this.tag.init();
+            },
+            stop: function () {
+                this.search.stop();
+                this.tag.stop();
+            },
+            search: {
+                init: function () {
+                    this.project();
+                    this.client();
+
+                    $(document).on('click',".open-filter-search", function () {
+                        var status = $(this).hasClass('filter-active');
+                        var type = $(this).data('type');
+
+                        if(!status)
+                            project.filter.search.open(type);
+                        else
+                            project.filter.search.close();
+                    });
+                    $(document).on('click', "#filter-search > .close", function () {
+                        project.filter.search.close();
+                    });
+                },
+                stop: function () {
+                    $(document).off('click', ".open-filter-search");
+                    $(document).off('click', "#filter-search > .close");
+                },
+                open: function (type) {
+                    var type = !empty(type) ? type : 'project';
+
+                    $("#filter-buttons a").removeClass('filter-active');
+                    $("#filter-buttons a[data-type="+type+"]").addClass('filter-active');
+                    $("#filter-search > input")
+                                               .attr("id", 'filter-search-'+type)
+                                               .attr("placeholder", "Search "+type.capitalize());
+                    $("#filter-search").show();
+                },
+                close: function () {
+                    $("#filter-buttons a").removeClass('filter-active');
+                    $("#filter-search > input").attr('id','').val('').data('id','');
+                    $("#filter-search").hide();
+                },
+                project: function () {
+                    $(document).on('focus', '#filter-search-project', function () {
+                        $(this).autocomplete({
+                            source: function (request, response) {
+                                $.ajax({
+                                    url: base_url('data/project.json'),
+                                    type: 'GET',
+                                    dataType: 'json',
+                                    success: function(data) {
+                                        response($.map(data, function (item) {
+                                            return {id: item.id, label: item.name, value: item.name};
+                                        }));
+                                    }
+                                });
+                            },
+                        });
+                    });
+                },
+                client: function () {
+                    $(document).on('focus', '#filter-search-client', function () {
+                        $(this).autocomplete({
+                            source: function (request, response) {
+                                $.ajax({
+                                    url: base_url('data/client.json'),
+                                    type: 'GET',
+                                    dataType: 'json',
+                                    success: function(data) {
+                                        response($.map(data, function (item) {
+                                            return {id: item.id, label: item.name, value: item.name};
+                                        }));
+                                    }
+                                });
+                            },
+                            select: function( event, ui ) {
+                                project.filter.search.close();
+                                project.filter.tag.remove('client');
+                                project.filter.tag.add(ui.item.value,'tag-client','tag-first');
+                                return false;
+                            }
+                        });
+                    });
+                }
+            },
+            date: {
+                init: function () {
+
+                },
+                stop: function () {
+
+                },
+                start: function () {
+
+                },
+                end: function () {
+
+                }
+            },
+            tag: {
+                init: function () {
+                    $(document).on('click','.tag > .tag-remove', function () {
+                        $(this).parents('.tag').remove();
+                    });
+                },
+                stop: function () {
+                    $(document).off('click','.tag > .tag-remove');
+                },
+                add: function (value, type, order) {
+                    var $tag = $("<div/>",{class:"tag " + "tag-type-" + type + " " + order});
+                    var $tag_subtitle = $("<span/>", {class:"tag-subtitle"}).text(value);
+                    var $tag_remove = $("<span/>", {class:"tag-remove uk-position-center-right", "uk-icon":"icon:close"});
+
+                    $("#filter-tags").append($tag.append($tag_subtitle).append($tag_remove));
+                },
+                remove: function (tag_type) {
+                    $(".tag.tag-type-"+tag_type).remove();
+                }
+            }
+        },
+        list: {
+            init: function () {
+                this.load();
+                $("#project-list").on("update_project_list DOMSubtreeModified", function () {
+                    var list_is_empty  = $("#project-list > .project").length < 1;
+                    var msg_is_show    = $("#project-list > .not-project").length == 1;
+
+                    if(list_is_empty)
+                        project.list.msg_empty_show();
+                    else if(msg_is_show)
+                        project.list.msg_empty_hide();
+                }).trigger('update_project_list');
+            },
+            stop: function () {
+                $("#project-list").off("update_project_list DOMSubtreeModified");
+            },
+            load: function () {
+                this.load_wait();
+
+                $.ajax({
+                    url: "http://localhost:3000/data/project.json",
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $.each(data, function (index, value) {
+                            project.list.add(value);
+                        });
+                        project.list.load_done();
+                    },
+                    error: function() {
+                        project.list.load_done();
+                    }
+                });
+            },
+            load_wait: function () {
+                var $overlay = $("<div/>",{id:"project-list-wait", class:"uk-position-center"});
+                var $spinner = $("<div/>",{class:"uk-position-center color-primary", "uk-spinner":"ratio: 3"});
+
+                $("#project-list").append($($overlay).append($spinner)).addClass('not-scrolling');
+            },
+            load_done:function () {
+                $("#project-list").removeClass('not-scrolling');
+                $("#project-list-wait").remove();
+            },
+            reset: function () {
+                $("#project-list > .project").remove();
+            },
+            add: function (project) {
+                var $wapper = $("<div/>",{class:"project","data-id": project.id});
+                var $client_name = $("<span/>",{class:"project-client uk-text-truncate"}).text(project.client);
+                var $project_name = $("<span/>",{class:"project-name uk-text-truncate"}).text(project.name);
+
+                $("#project-list").append($($wapper).append($($client_name)).append($($project_name)));
+            },
+            remove: function (id) {
+                $(".project[data-id="+id+"]").remove();
+            },
+            msg_empty_show: function () {
+                if($("#project-list > .not-project").length == 0) {
+                    var $wrapper = $("<div/>", {class: "not-project"});
+                    var $notification = $("<span/>", {class: "uk-text-center"}).text('There is no project registered!');
+
+                    $("#project-list").append($($wrapper).append($notification));
+                }
+            },
+            msg_empty_hide: function () {
+                $("#project-list .not-project").remove();
+            }
+        }
+    };
     task = {
         init: function () {
             this.status.init();
@@ -675,6 +878,7 @@ $(function () {
     };
 
     // init
+    project.init();
     task.init();
 
     // set mask
