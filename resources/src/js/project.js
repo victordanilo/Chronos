@@ -3,6 +3,7 @@ $(function () {
         init: function () {
             this.status.init();
             this.date.init();
+            this.time.init();
 
             // open bar new task
             $(document).on('click', "#open-new-task", function () {
@@ -19,6 +20,7 @@ $(function () {
         stop: function () {
             this.status.stop();
             this.date.stop();
+            this.time.stop();
 
             $(document).off('click', "#open-new-task");
             $(document).off('click', '#btn-task-close');
@@ -386,6 +388,122 @@ $(function () {
             close: function () {
                 $('#task-date-btn-open').removeClass('expand');
                 $("#task-date-input").val('');
+            }
+        },
+        time: {
+            init: function () {
+                Stopwatch.prototype.parserTimer = function (time) {
+                    time = time.split(':');
+                    var hr  = time[0];
+                    var min = time[1];
+                    var sec = time[2];
+                    time = 0;
+
+                    time += hr  * 3600000;
+                    time += min * 60000;
+                    time += sec * 1000;
+
+                    return time;
+                };
+                Stopwatch.prototype.setStartTime = function (time) {
+                    this.previousElapsed = this.parserTimer(time);
+                };
+                Stopwatch.prototype.toString = function(elapsed) {
+                    var duration, hr, min, ms, sec;
+                    duration = !empty(elapsed) ? elapsed : this.getElapsed();
+                    ms = duration % 1000;
+                    duration = (duration - ms) / 1000;
+                    sec = duration % 60;
+                    duration = (duration - sec) / 60;
+                    min = duration % 60;
+                    hr = (duration - min) / 60;
+                    return ('0' + hr).slice(-2) + ':' + ('0' + min).slice(-2) + ':' + ('0' + sec).slice(-2);
+                };
+                timer = new Stopwatch();
+
+                // open task time
+                $("#task-time-btn-open").click(function () {
+                    task.time.open();
+                });
+
+                // close task time
+                $("#task-time-btn-close").click(function () {
+                    var status = $("#btn-task-player").data('status');
+
+                    if(status == 'play')
+                        task.time.pause();
+
+                    task.time.close();
+                    return false;
+                });
+
+                // events focus
+                $("#task-time-input").focus(function () {
+                    $("#task-time-btn-open").addClass('active');
+                });
+                $("#task-time-input").blur(function () {
+                    $("#task-time-btn-open").removeClass('active');
+                });
+
+                // player control
+                $("#btn-task-player").click(function () {
+                    var status = $(this).data('status');
+
+                    if(status == 'pause')
+                        task.time.play();
+                    else if(status == 'play')
+                        task.time.pause();
+                });
+            },
+            stop: function () {
+
+            },
+            open: function (time) {
+                var $task_time = $("#task-time-btn-open");
+                var $task_time_input = $("#task-time-input");
+
+                var has_expand = $task_time.hasClass('expand');
+                if(!has_expand)
+                   $task_time.addClass('expand');
+
+                if(empty($task_time_input.val()) || !empty(time)) {
+                    time = empty(time) ? '00:00:00' : time;
+                    $task_time_input.val(time);
+                }
+            },
+            close: function () {
+                $("#task-time-btn-open").removeClass('expand active');
+                $("#task-time-input").val('');
+            },
+            play: function () {
+                this.open();
+
+                var task_time = $("#task-time-input");
+                task_time.prop('disabled',true);
+
+                timer.setStartTime(task_time.val());
+                timer.start();
+                timer.onTick(function() {
+                   task_time.val(timer.toString());
+                }, 1000);
+
+                $("#btn-task-player")
+                                     .data('status','play')
+                                     .html('<span uk-icon="icon:control-pause"></span>');
+            },
+            pause: function () {
+                var task_time = $("#task-time-input");
+                task_time.prop('disabled',false);
+
+                timer.pause();
+
+                $("#btn-task-player")
+                                     .data('status','pause')
+                                     .html('<span uk-icon="icon:control-play"></span>');
+            },
+            reset: function () {
+                this.pause();
+                $("#task-time-input").val('00:00:00');
             }
         }
     };

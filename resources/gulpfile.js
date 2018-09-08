@@ -229,6 +229,7 @@ gulp.task('load-dependencies',function(done){
         'jquery-ui'    : '/jquery-ui/{jquery-ui.min.js,themes/base/jquery-ui.min.css}',
         'mustache.js'  : '/mustache.js/mustache.min.js',
         'moment'       : '/moment/min/moment.min.js',
+        'stopwatch'    : '/stopwatch/Stopwatch.min.js',
         'jquery-mask-plugin' : '/jquery-mask-plugin/dist/jquery.mask.min.js'
     };
     each(bower.dependencies,function(version,name){
