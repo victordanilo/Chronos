@@ -16,12 +16,14 @@ class Template
 {
     private $ci;            /** @var CI_Controller $ci */
     private $_parser;       /** @var bool $_parser */
+    private $_compress;     /** @var bool $_compress */
     private $_template;     /** @var string $_template */
     public $title;          /** @var Title $title */
     public $meta;           /** @var Tag $meta */
     public $stylesheet;     /** @var Tag $stylesheet */
     public $javascript;     /** @var Tag $javascript */
     public $content;        /** @var Content $content */
+    public $data;           /** @var Data $data */
 
     use View;
 
@@ -35,12 +37,14 @@ class Template
     {
         $this->ci         =& get_instance();
         $this->_parser    = false;
+        $this->_compress  = true;
         $this->_template  = null;
         $this->title      = new Title();
         $this->meta       = new Tag('meta');
         $this->stylesheet = new Tag('stylesheet');
         $this->javascript = new Tag('javascript');
         $this->content    = new Content();
+        $this->data       = new Data();
 
         /** initialize configurations */
         if (!empty($config))
@@ -83,6 +87,20 @@ class Template
     }
 
     /**
+     * set parser configuration
+     *
+     * @access public
+     * @param bool $bool
+     * @return Template $this
+     */
+    public function set_compress($bool)
+    {
+        $this->_compress = (bool) $bool;
+
+        return $this;
+    }
+
+    /**
      * set base template
      * @param string $view
      * @return Template $this
@@ -93,6 +111,38 @@ class Template
         $this->_template = (string) $view;
 
         return $this;
+    }
+
+    /**
+     *  compress output
+     *
+     * @param $buffer
+     * @return string
+     */
+    private function compress($buffer)
+    {
+        $search = array(
+            '/(\n|^)(\x20+|\t)/',
+            '/(\n|^)\/\/(.*?)(\n|$)/',
+            '/\n/',
+            '/\<\!--.*?-->/',
+            '/(\x20+|\t)/',   # Delete multispace (Without \n)
+            '/\>\s+\</',      # strip whitespaces between tags
+            '/(\"|\')\s+\>/', # strip whitespaces between quotation ("') and end tags
+            '/=\s+(\"|\')/'); # strip whitespaces between = "'
+
+        $replace = array(
+            "\n",
+            "\n",
+            " ",
+            "",
+            " ",
+            "><",
+            "$1>",
+            "=$1");
+
+        $buffer = preg_replace($search,$replace,$buffer);
+        return $buffer;
     }
 
     /**
@@ -118,6 +168,12 @@ class Template
         else
             $out = $this->content->build();
 
+        if($this->data->has_data())
+            $out = $this->data->inject($out);
+
+        if($this->_compress)
+            $out = $this->compress($out);
+
         $this->ci->output
             ->set_output($out)
             ->_display();
@@ -133,17 +189,89 @@ class Template
     public function render_json(array $data, $code = 200)
     {
         $this->ci->output
-                ->set_status_header($code)
-                ->set_content_type('application/json', 'utf-8')
-                ->set_output(json_encode($data))
-                ->_display();
+            ->set_status_header($code)
+            ->set_content_type('application/json', 'utf-8')
+            ->set_output(json_encode($data))
+            ->_display();
         exit;
     }
 }
 
+/**
+ * Class Data
+ *
+ */
+class Data
+{
+    private $data;
+    private $global_data;
+
+    public function __construct()
+    {
+        $this->data = array();
+        $this->global_data = array();
+    }
+
+    public function add($name,$value)
+    {
+        $this->data[$name] = $value;
+
+        return $this;
+    }
+
+    public function add_global($name,$value)
+    {
+        $this->global_data[$name] = $value;
+
+        return $this;
+    }
+
+    public function inject($buffer)
+    {
+        $insert = $this->build();
+        $needle = stripos($buffer, '>', strrpos($buffer, '<link'));
+        $buffer = substr_replace($buffer, $insert, $needle+1, 0);
+
+        return $buffer;
+    }
+
+    public function has_data()
+    {
+        return !empty($this->data) || !empty($this->global_data);
+    }
+
+    public function build()
+    {
+        $code = '';
+
+        if(!empty($this->data)) {
+            foreach ($this->data as $name => $value)
+                $code .= "var {$name} = {$this->parser($value)};";
+
+        }
+
+        if(!empty($this->global_data)) {
+            foreach ($this->global_data as $name => $value)
+                $code .= "window.{$name} = {$this->parser($value)};";
+        }
+
+        return "<script> {$code} </script>";
+    }
+
+    private function parser($value)
+    {
+        if(gettype($value) == 'array')
+            return json_encode($value);
+
+        if(gettype($value) == 'string')
+            return "'$value'";
+
+        return $value;
+    }
+}
 
 /**
- * Tag Builder Helper
+ * Builder helper of tag
  */
 class TagBuilder
 {
@@ -408,6 +536,7 @@ class Title
      * set current title
      *
      * @param string $title
+     * @return Title $this
      */
     private function set_current_title($title)
     {
