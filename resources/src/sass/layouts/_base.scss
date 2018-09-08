@@ -408,6 +408,11 @@ main {
           height: 42px;
           color: color('smoke-dark');
         }
+
+        svg:hover {
+          background-color: lighten(color('smoke'),3%);
+          border-radius: 50%;
+        }
       }
 
       h3 {
