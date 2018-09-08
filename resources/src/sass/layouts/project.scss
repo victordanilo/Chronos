@@ -259,12 +259,19 @@ div#main-content {
       display: block;
       width: 100%;
       height: 42px;
-      padding: 5px 10px;
-      background-color: #f5f6f6;
-      color: color('text-secondary');
+      background-color: #ecf0f17a;
       border: none;
+      box-shadow: inset 0px 0px 6px rgba(0,0,0,0.08);
       box-sizing: border-box;
+      padding: 5px 10px;
+      color: color('text-secondary');
       position: relative;
+
+      &:focus{
+        background: color('default');
+        border : 1px solid rgba(30, 135, 240, 1);
+        box-shadow: inset 0px 0px 6px rgba(30, 135, 240, 0.4);
+      }
     }
 
     .task-status {
