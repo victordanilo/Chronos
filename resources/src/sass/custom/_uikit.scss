@@ -61,3 +61,30 @@
     margin-right: 0px;
   }
 }
+
+
+// notifications
+.uk-notification-message-primary {
+  background-color: lighten(color('primary'), 15%);
+  &, a, a:hover {
+    color: darken(color('primary'), 20%);
+  }
+}
+.uk-notification-message-success {
+  background-color: lighten(color('success'), 15%);
+  &, a, a:hover {
+    color: darken(color('success'), 20%);
+  }
+}
+.uk-notification-message-warning {
+  background-color: lighten(color('warning'), 15%);
+  &, a, a:hover {
+    color: darken(color('warning'), 20%);
+  }
+}
+.uk-notification-message-danger {
+  background-color: lighten(color('danger'), 15%);
+  &, a, a:hover {
+   color: darken(color('danger'), 20%);
+  }
+}
