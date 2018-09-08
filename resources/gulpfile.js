@@ -1,4 +1,4 @@
-// load the gulp dependencies
+// -------------------- load dependencies gulp --------------------
 var del          = require('del');
 var each         = require('foreach');
 var uikit        = require('./uikit_util');
@@ -14,12 +14,14 @@ var imagemin     = require('gulp-imagemin');
 var environments = require('gulp-environments');
 var browserSync  = require('browser-sync').create();
 
+
+// -------------------- variables --------------------------------
+
 // variables of environment
 var pkg   = require('./package.json');
 var bower = require('./bower.json');
 var production  = environments.production;
 var development = environments.development;
-
 
 // base directories path
 var path = 
@@ -74,6 +76,8 @@ var source =
 }
 
 
+// -------------------- setting of environment --------------------------
+
 // set environment for development
 gulp.task('set-env-dev',function(done){
     environments.current(development);
@@ -93,6 +97,8 @@ gulp.task('env-current',function(done){
     done();
 });
 
+
+// -------------------- clean directorys --------------------------
 
 // clean up the image subdirectory of the assets directory
 gulp.task('clean-img',function(done){
@@ -145,6 +151,8 @@ gulp.task('clean-tests',function(done){
     done();
 });
 
+
+// -------------------- build source ---------------------
 
 // load views files 
 gulp.task('views', function(){
@@ -207,7 +215,6 @@ gulp.task('fonts',function(){
                .pipe(browserSync.stream());
 });
 
-
 // watch the changes in source files
 gulp.task('watch-source', function(){
     gulp.watch(source.html.files,  gulp.series('views'));
@@ -220,6 +227,9 @@ gulp.task('watch-source', function(){
 
 // build all source files
 gulp.task('build-source', gulp.parallel('views', 'compile-sass', 'compile-js', 'img', 'fonts'));
+
+
+// -------------------- build dependencies -----------------------
 
 // load the dependencies of the project
 gulp.task('load-dependencies',function(done){
@@ -238,7 +248,6 @@ gulp.task('load-dependencies',function(done){
     });
     done();
 });
-
 
 // build custom uikit sass
 gulp.task('build-custom-uikit-sass', function (){
@@ -272,11 +281,16 @@ gulp.task('build-custom-uikit-icons', function(done){
 gulp.task('build-custom-uikit', gulp.parallel('build-custom-uikit-sass', 'build-custom-uikit-js', 'build-custom-uikit-icons'));
 
 
+// --------------------  hooks  -----------------------
+
 // load data
 gulp.task('load-data', function(){
     return gulp.src(path.src + '/data/**')
         .pipe(gulp.dest(path.tests + "/data/"));
 });
+
+// build app
+gulp.task('build', gulp.series('load-dependencies','build-source','build-custom-uikit-icons'));
 
 // set up a local testing server
 gulp.task('server', gulp.series('clean-tests', 'set-env-dev', 'load-dependencies', 'build-source', 'build-custom-uikit-icons', 'load-data', function(){
