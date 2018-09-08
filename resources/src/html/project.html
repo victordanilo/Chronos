@@ -149,7 +149,7 @@
                 <div id="board-wrapper">
 
                     <div id="create-task-wrapper" class="">
-                        <div id="create-task">
+                        <div id="create-task" data-id="">
                             <input type="text" name="task_name" id="task-input-name" placeholder="Task name">
 
                             <button class="task-status" bg-color="red" status-id="1" dropdown>
@@ -207,300 +207,6 @@
                     </div>
 
                     <div id="board-content">
-                        <div class="task">
-                            <div class="task-content">
-                                <span class="task-name">Implement time-tracking</span>
-
-                                <button class="task-status" bg-color="yellow" status-id="2" dropdown>
-                                    <span class="task-status-icon" uk-icon="icon:tag"></span>
-                                    <span class="task-status-name">To Do</span>
-                                </button>
-                                <div class="dropdown not-task-content">
-                                    <div class="dropdown-header">
-                                        <h3 class="dropdown-title">Status</h3>
-                                        <a href="#" class="dropdown-close uk-close-large uk-position-center-right" uk-close></a>
-                                    </div>
-                                    <div class="dropdown-content scrollbar-small scrollbar-round">
-                                        <ul class="status-list uk-list">
-                                        </ul>
-                                        <a href="#new-status" id="open-new-status" class="uk-icon-button" uk-icon="plus" uk-toggle></a>
-                                    </div>
-                                </div>
-
-                                <div class="task-date expand">
-                                    <span uk-icon="icon: calendar"></span>
-                                    <div class="uk-display-inline">
-                                        <span>27/03/19</span>
-                                    </div>
-                                </div>
-
-                                <div class="task-time expand">
-                                    <span uk-icon="icon: clock"></span>
-                                    <div class="uk-display-inline">
-                                        <span>00:00:00</span>
-                                    </div>
-                                </div>
-
-                                <button class="btn-task-player">
-                                    <span uk-icon="icon:control-pause"></span>
-                                </button>
-
-                                <button class="btn-task btn-task-more">
-                                    <span uk-icon="icon:more"></span>
-                                </button>
-                                <div uk-dropdown="mode: click; offset: 0; pos: bottom-right" class="not-task-content uk-dropdown uk-padding-small uk-position-z-index">
-                                    <ul class="uk-nav uk-dropdown-nav">
-                                        <li><a href="#"><span class="uk-icon" uk-icon="icon: trash"></span> Delete</a></li>
-                                        <li class="uk-hidden@s"><a href="#"><span class="uk-icon" uk-icon="icon: plus-circle"></span> More</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="task">
-                            <div class="task-content">
-                                <span class="task-name">Implement kanban board</span>
-
-                                <button class="task-status" bg-color="red" status-id="1" dropdown>
-                                    <span class="task-status-icon" uk-icon="icon:tag"></span>
-                                    <span class="task-status-name">Backlog</span>
-                                </button>
-                                <div class="dropdown not-task-content">
-                                    <div class="dropdown-header">
-                                        <h3 class="dropdown-title">Status</h3>
-                                        <a href="#" class="dropdown-close uk-close-large uk-position-center-right" uk-close></a>
-                                    </div>
-                                    <div class="dropdown-content scrollbar-small scrollbar-round">
-                                        <ul class="status-list uk-list">
-                                        </ul>
-                                        <a href="#new-status" id="open-new-status" class="uk-icon-button" uk-icon="plus" uk-toggle></a>
-                                    </div>
-                                </div>
-
-                                <div class="task-date expand">
-                                    <span uk-icon="icon: calendar"></span>
-                                    <div class="uk-display-inline">
-                                        <span>27/03/19</span>
-                                    </div>
-                                </div>
-
-                                <div class="task-time expand">
-                                    <span uk-icon="icon: clock"></span>
-                                    <div class="uk-display-inline">
-                                        <span>00:00:00</span>
-                                    </div>
-                                </div>
-
-                                <button class="btn-task-player">
-                                    <span uk-icon="icon:control-pause"></span>
-                                </button>
-
-                                <button class="btn-task btn-task-more">
-                                    <span uk-icon="icon:more"></span>
-                                </button>
-                                <div uk-dropdown="mode: click; offset: 0; pos: bottom-right" class="not-task-content uk-dropdown uk-padding-small uk-position-z-index">
-                                    <ul class="uk-nav uk-dropdown-nav">
-                                        <li><a href="#"><span class="uk-icon" uk-icon="icon: trash"></span> Delete</a></li>
-                                        <li class="uk-hidden@s"><a href="#"><span class="uk-icon" uk-icon="icon: plus-circle"></span> More</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="task">
-                            <div class="task-content">
-                                <span class="task-name">Implement to-do board</span>
-
-                                <button class="task-status" bg-color="red" status-id="1" dropdown>
-                                    <span class="task-status-icon" uk-icon="icon:tag"></span>
-                                    <span class="task-status-name">Backlog</span>
-                                </button>
-                                <div class="dropdown not-task-content">
-                                    <div class="dropdown-header">
-                                        <h3 class="dropdown-title">Status</h3>
-                                        <a href="#" class="dropdown-close uk-close-large uk-position-center-right" uk-close></a>
-                                    </div>
-                                    <div class="dropdown-content scrollbar-small scrollbar-round">
-                                        <ul class="status-list uk-list">
-                                        </ul>
-                                        <a href="#new-status" id="open-new-status" class="uk-icon-button" uk-icon="plus" uk-toggle></a>
-                                    </div>
-                                </div>
-
-                                <div class="task-date expand">
-                                    <span uk-icon="icon: calendar"></span>
-                                    <div class="uk-display-inline">
-                                        <span>27/03/19</span>
-                                    </div>
-                                </div>
-
-                                <div class="task-time expand">
-                                    <span uk-icon="icon: clock"></span>
-                                    <div class="uk-display-inline">
-                                        <span>00:00:00</span>
-                                    </div>
-                                </div>
-
-                                <button class="btn-task-player">
-                                    <span uk-icon="icon:control-pause"></span>
-                                </button>
-
-                                <button class="btn-task btn-task-more">
-                                    <span uk-icon="icon:more"></span>
-                                </button>
-                                <div uk-dropdown="mode: click; offset: 0; pos: bottom-right" class="not-task-content uk-dropdown uk-padding-small uk-position-z-index">
-                                    <ul class="uk-nav uk-dropdown-nav">
-                                        <li><a href="#"><span class="uk-icon" uk-icon="icon: trash"></span> Delete</a></li>
-                                        <li class="uk-hidden@s"><a href="#"><span class="uk-icon" uk-icon="icon: plus-circle"></span> More</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="task">
-                            <div class="task-content">
-                                <span class="task-name">Implement team manager</span>
-
-                                <button class="task-status" bg-color="red" status-id="1" dropdown>
-                                    <span class="task-status-icon" uk-icon="icon:tag"></span>
-                                    <span class="task-status-name">Backlog</span>
-                                </button>
-                                <div class="dropdown not-task-content">
-                                    <div class="dropdown-header">
-                                        <h3 class="dropdown-title">Status</h3>
-                                        <a href="#" class="dropdown-close uk-close-large uk-position-center-right" uk-close></a>
-                                    </div>
-                                    <div class="dropdown-content scrollbar-small scrollbar-round">
-                                        <ul class="status-list uk-list">
-                                        </ul>
-                                        <a href="#new-status" id="open-new-status" class="uk-icon-button" uk-icon="plus" uk-toggle></a>
-                                    </div>
-                                </div>
-
-                                <div class="task-date expand">
-                                    <span uk-icon="icon: calendar"></span>
-                                    <div class="uk-display-inline">
-                                        <span>27/03/19</span>
-                                    </div>
-                                </div>
-
-                                <div class="task-time expand">
-                                    <span uk-icon="icon: clock"></span>
-                                    <div class="uk-display-inline">
-                                        <span>00:00:00</span>
-                                    </div>
-                                </div>
-
-                                <button class="btn-task-player">
-                                    <span uk-icon="icon:control-pause"></span>
-                                </button>
-
-                                <button class="btn-task btn-task-more">
-                                    <span uk-icon="icon:more"></span>
-                                </button>
-                                <div uk-dropdown="mode: click; offset: 0; pos: bottom-right" class="not-task-content uk-dropdown uk-padding-small uk-position-z-index">
-                                    <ul class="uk-nav uk-dropdown-nav">
-                                        <li><a href="#"><span class="uk-icon" uk-icon="icon: trash"></span> Delete</a></li>
-                                        <li class="uk-hidden@s"><a href="#"><span class="uk-icon" uk-icon="icon: plus-circle"></span> More</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="task">
-                            <div class="task-content">
-                                <span class="task-name">Implement messeger</span>
-
-                                <button class="task-status" bg-color="red" status-id="1" dropdown>
-                                    <span class="task-status-icon" uk-icon="icon:tag"></span>
-                                    <span class="task-status-name">Backlog</span>
-                                </button>
-                                <div class="dropdown not-task-content">
-                                    <div class="dropdown-header">
-                                        <h3 class="dropdown-title">Status</h3>
-                                        <a href="#" class="dropdown-close uk-close-large uk-position-center-right" uk-close></a>
-                                    </div>
-                                    <div class="dropdown-content scrollbar-small scrollbar-round">
-                                        <ul class="status-list uk-list">
-                                        </ul>
-                                        <a href="#new-status" id="open-new-status" class="uk-icon-button" uk-icon="plus" uk-toggle></a>
-                                    </div>
-                                </div>
-
-                                <div class="task-date expand">
-                                    <span uk-icon="icon: calendar"></span>
-                                    <div class="uk-display-inline">
-                                        <span>27/03/19</span>
-                                    </div>
-                                </div>
-
-                                <div class="task-time expand">
-                                    <span uk-icon="icon: clock"></span>
-                                    <div class="uk-display-inline">
-                                        <span>00:00:00</span>
-                                    </div>
-                                </div>
-
-                                <button class="btn-task-player">
-                                    <span uk-icon="icon:control-pause"></span>
-                                </button>
-
-                                <button class="btn-task btn-task-more">
-                                    <span uk-icon="icon:more"></span>
-                                </button>
-                                <div uk-dropdown="mode: click; offset: 0; pos: bottom-right" class="not-task-content uk-dropdown uk-padding-small uk-position-z-index">
-                                    <ul class="uk-nav uk-dropdown-nav">
-                                        <li><a href="#"><span class="uk-icon" uk-icon="icon: trash"></span> Delete</a></li>
-                                        <li class="uk-hidden@s"><a href="#"><span class="uk-icon" uk-icon="icon: plus-circle"></span> More</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="task">
-                            <div class="task-content">
-                                <span class="task-name">Implement reports</span>
-
-                                <button class="task-status" bg-color="red" status-id="1" dropdown>
-                                    <span class="task-status-icon" uk-icon="icon:tag"></span>
-                                    <span class="task-status-name">Backlog</span>
-                                </button>
-                                <div class="dropdown not-task-content">
-                                    <div class="dropdown-header">
-                                        <h3 class="dropdown-title">Status</h3>
-                                        <a href="#" class="dropdown-close uk-close-large uk-position-center-right" uk-close></a>
-                                    </div>
-                                    <div class="dropdown-content scrollbar-small scrollbar-round">
-                                        <ul class="status-list uk-list">
-                                        </ul>
-                                        <a href="#new-status" id="open-new-status" class="uk-icon-button" uk-icon="plus" uk-toggle></a>
-                                    </div>
-                                </div>
-
-                                <div class="task-date expand">
-                                    <span uk-icon="icon: calendar"></span>
-                                    <div class="uk-display-inline">
-                                        <span>27/03/19</span>
-                                    </div>
-                                </div>
-
-                                <div class="task-time expand">
-                                    <span uk-icon="icon: clock"></span>
-                                    <div class="uk-display-inline">
-                                        <span>00:00:00</span>
-                                    </div>
-                                </div>
-
-                                <button class="btn-task-player">
-                                    <span uk-icon="icon:control-pause"></span>
-                                </button>
-
-                                <button class="btn-task btn-task-more">
-                                    <span uk-icon="icon:more"></span>
-                                </button>
-                                <div uk-dropdown="mode: click; offset: 0; pos: bottom-right" class="not-task-content uk-dropdown uk-padding-small uk-position-z-index">
-                                    <ul class="uk-nav uk-dropdown-nav">
-                                        <li><a href="#"><span class="uk-icon" uk-icon="icon: trash"></span> Delete</a></li>
-                                        <li class="uk-hidden@s"><a href="#"><span class="uk-icon" uk-icon="icon: plus-circle"></span> More</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <button id="open-new-task" class="uk-position-z-index uk-hidden@m">new task</button>
@@ -558,6 +264,57 @@
                 </ul>
             </div>
         </li>
+    </script>
+
+    <script id="task_template" type="x-tmpl-mustache">
+        <div class="task" task-id="{{id}}">
+            <div class="task-content">
+                <span class="task-name">{{name}}</span>
+
+                <button class="task-status" bg-color="{{status.color}}" status-id="{{status.id}}" dropdown="">
+                    <span class="task-status-icon" uk-icon="icon:tag"></span>
+                    <span class="task-status-name">{{status.name}}</span>
+                </button>
+                <div class="dropdown not-task-content">
+                    <div class="dropdown-header">
+                        <h3 class="dropdown-title">Status</h3>
+                        <a href="#" class="dropdown-close uk-close-large uk-position-center-right" uk-close></a>
+                    </div>
+                    <div class="dropdown-content scrollbar-small scrollbar-round">
+                        <ul class="status-list uk-list">
+                            {{{dropdown_content}}}
+                        </ul>
+                        <a href="#new-status" id="open-new-status" class="uk-icon-button" uk-icon="plus" uk-toggle></a>
+                    </div>
+                </div>
+
+                <div class="task-date expand">
+                    <span uk-icon="icon: calendar"></span>
+                    <div class="uk-display-inline">
+                        <input type="text" class="date task-date-input" value="{{date}}" disabled>
+                    </div>
+                </div>
+
+                <div class="task-time expand">
+                    <span uk-icon="icon: clock"></span>
+                    <div class="uk-display-inline">
+                        <input type="text" class="time task-time-input" value="{{time}}" disabled>
+                    </div>
+                </div>
+
+                <button class="btn-task-player" data-status='pause'>
+                    <span uk-icon="icon:control-play"></span>
+                </button>
+
+                <button class="btn-task btn-task-more uk-icon-button" uk-icon="icon:more"></button>
+                <div uk-dropdown="mode: click; offset: 0; pos: bottom-right" class="not-task-content uk-dropdown uk-padding-small uk-position-z-index">
+                    <ul class="uk-nav uk-dropdown-nav">
+                        <li><a href="#" class="task-remove"><span class="uk-icon" uk-icon="icon: trash"></span> Delete</a></li>
+                        <li class="uk-hidden@s"><a href="#"><span class="uk-icon" uk-icon="icon: plus-circle"></span> More</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </script>
     <!-- templates mustache -->
 

@@ -4,6 +4,7 @@ $(function () {
             this.status.init();
             this.date.init();
             this.time.init();
+            this.load_tasks();
 
             // open bar new task
             $(document).on('click', "#open-new-task", function () {
@@ -16,6 +17,54 @@ $(function () {
                 $("#create-task-wrapper").removeClass('active');
                 $("#main-content").removeClass('not-scrolling');
             });
+
+            // add task
+            $(document).on('click', '#btn-task-new', function () {
+                var id = $("#create-task").data('id');
+                var name = $("#task-input-name").val();
+                var status = $("#create-task > .task-status").attr('status-id');
+                var date = $("#task-date-input").val();
+                var time = $("#task-time-input").val();
+
+                if(empty(name)) {
+                    UIkit.notification({
+                        message: 'set task name',
+                        status: 'danger',
+                        pos: 'bottom-center',
+                        timeout: 5000
+                    });
+                    $("#task-input-name").focus();
+                    return false;
+                }
+
+                if(empty(id)) {
+                    id = Number(tasks_list[tasks_list.length - 1].id) + 1;
+                    task.add(id, name, status, date, time);
+                }
+                else
+                    task.add_time(id,time);
+
+                task.clear_dock();
+            });
+
+            // remove task
+            $(document).on('click', '.task .task-remove', function () {
+                var target = $(this).parents('.task');
+                var task_id = target.attr('task-id');
+                task.remove(task_id);
+            });
+
+            // start task
+            $(document).on('click', '.task:not(.track_task) .btn-task-player', function () {
+                var $this = $(this).parents('.task');
+                var id = $this.attr('task-id');
+                var name = $this.find('.task-name').text();
+                var status = $this.find('.task-status').attr('status-id');
+                var date = $this.find('.task-date-input').val();
+                var time = $this.find('.task-time-input').val();
+
+                task.start(id, name, status, date, time);
+            });
         },
         stop: function () {
             this.status.stop();
@@ -25,11 +74,119 @@ $(function () {
             $(document).off('click', "#open-new-task");
             $(document).off('click', '#btn-task-close');
         },
+        load_tasks: function () {
+            $.ajax({
+                url: base_url('data/tasks.json'),
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $.each(data, function (i, task_item) {
+                        task.add(task_item.id, task_item.name, task_item.status, task_item.date, task_item.time);
+                    });
+                }
+            });
+        },
+        add: function (id, name, status, date, time) {
+            date = empty(date) ? moment().format("DD/MM/YY") : date;
+            status = search_array(status, 'id', status_list);
+            status = status ? status : {'id':'','name':'','color':''};
+            var dropdown_content = this.status.build_content(status.id);
+            var data = {'id' : id, 'name' : name, 'status' : status, 'dropdown_content' : dropdown_content, 'date' : date, 'time' : time};
+            var template = $("#task_template").html();
+            var task = Mustache.render(template,data);
+
+            $("#board-content").append(task);
+            tasks_list.push({id: id, name: name, status: Number(status.id), date: date, time: time});
+        },
+        remove: function (task_id) {
+            $('.task[task-id='+task_id+']').remove();
+
+            // remove task from global list
+            var index = null;
+            $.each(tasks_list,function (i, task_item) {
+                if(task_id == task_item.id) {
+                    index = i;
+                    return;
+                }
+            });
+            tasks_list.splice(index,1);
+        },
+        add_time: function (id, time) {
+            var target = $('.task[task-id='+id+']').find(".task-time-input");
+            time = timer.parserTimer(target.val()) + timer.parserTimer(time);
+            time = timer.toString(time);
+            target.val(time);
+        },
+        start: function (id, name, status, date, time) {
+            has_starting = $("#create-task").data('id') == id;
+            if(has_starting)
+                return false;
+
+            this.clear_dock();
+            $("#create-task").data('id', id);
+            $("#task-input-name").val(name);
+            $("#task-date-input").val(date);
+            $("#task-time-input").val(time);
+            this.status.selected(status, $("#create-task .dropdown"));
+            this.tracking(id);
+            this.time.play();
+        },
+        tracking: function (id) {
+            if(empty(id))
+                return;
+
+            this.untracking();
+
+            var $task = $("#board-content .task[task-id="+id+"]");
+            var target = $task.find('.btn-task-player');
+
+            $('#btn-task-player').on('DOMSubtreeModified', function () {
+                var status = $(this).data('status');
+                var content = $(this).html();
+
+                target.data('status',status);
+                target.html(content);
+            });
+            $(target).on('click.track_task',function () {
+                var status = target.data('status');
+
+                if(status == 'pause')
+                    task.time.play();
+                else if(status == 'play')
+                    task.time.pause();
+            });
+            $task.addClass('track_task');
+        },
+        untracking: function () {
+            $("#board-content .task.track_task").each(function (i,element) {
+                var target = $(element).find('.btn-task-player');
+                target.data('status','pause').html('<span uk-icon="icon:control-play"></span>');
+                $(target).on('click.track_task');
+                $(element).removeClass('track_task');
+            });
+            $('#btn-task-player').off('DOMSubtreeModified');
+        },
+        clear_dock: function () {
+            $("#create-task").data('id','');
+            $("#task-input-name").val('');
+            $("#task-date-input").val(moment().format("DD/MM/YY"));
+            this.time.reset();
+            this.status.reset($("#create-task .dropdown"));
+            this.untracking();
+        },
         status: {
             target: null,
 
             init: function () {
                 this.load_list();
+
+                //load status
+                $('.task-status').each(function (i,element) {
+                    var $status = $(element);
+                    var status_id = $status.attr('status-id');
+
+                    $status.siblings('.dropdown').find('li[status-id='+status_id+']').addClass('active');
+                });
 
                 // selected status
                 $(document).on('click', '.status-list-item > .status-name', function () {
@@ -327,6 +484,15 @@ $(function () {
 
                 if(edit_status.hasClass('edit'))
                     this.close_edit_status(edit_status);
+            },
+            reset : function (target) {
+                target = !empty(target) ? target : !empty(this.target) ? this.target : null;
+
+                if(empty(target))
+                    return;
+
+                var status_id = status_list[0].id;
+                this.selected(status_id, target);
             }
         },
         date: {
@@ -518,6 +684,7 @@ $(function () {
 });
 
 // set data initial
+tasks_list = [];
 status_list = [];
 
 // custom datepicker
