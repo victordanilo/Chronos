@@ -116,15 +116,25 @@ $(function () {
                     $(document).on('click','.tag > .tag-remove', function () {
                         $(this).parents('.tag').remove();
                     });
+
+                    $("body").on('DOMSubtreeModified', "#filter-tags", function() {
+                        var childrens = $("#filter-tags > *").length;
+                        
+                        if(childrens >= 1)
+                            $("#filter-tags").css('display','flex');
+                        else
+                            $("#filter-tags").hide();
+                    });
                 },
                 stop: function () {
                     $(document).off('click','.tag > .tag-remove');
                 },
                 add: function (value, type, order) {
-                    var $tag = $("<div/>",{class:"tag " + "tag-type-" + type + " " + order});
-                    var $tag_subtitle = $("<span/>", {class:"tag-subtitle"}).text(value);
+                    var $tag = $("<div/>",{class:"tag " + order,"tag-type": type});
+                    var $tag_subtitle = $("<span/>", {class:"tag-subtitle"}).text(value); 
                     var $tag_remove = $("<span/>", {class:"tag-remove uk-position-center-right", "uk-icon":"icon:close"});
-
+                    
+                    $("#filter-tags > .tag[tag-type="+type+"]").remove();
                     $("#filter-tags").append($tag.append($tag_subtitle).append($tag_remove));
                 },
                 remove: function (tag_type) {
