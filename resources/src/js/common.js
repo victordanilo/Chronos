@@ -440,6 +440,27 @@ $(function () {
     $(document).on('reset-scrolling','.not-scrolling',function () {
         $(".not-scrolling").scrollTop(0);
     }).trigger('reset-scrolling');
+
+    // detect show keyboard
+    var _originalSize = $(window).width() + $(window).height();
+    $(window).resize(function(){
+        var status = Math.abs(($(window).width() + $(window).height() - _originalSize)) > 20;
+
+        if(status)
+            $("body").addClass('show-keyboard');
+        else
+            $("body").removeClass('show-keyboard');
+    });
+
+    // detect hide keyboard
+    $(document).on('blur','input',function () {
+        $("body").removeClass('show-keyboard');
+        $(window).scrollTop(5);
+    });
+    $(window).on('focus blur',function() {
+        $("body").removeClass('show-keyboard');
+        $(window).scrollTop(5);
+    });
 });
 
 
