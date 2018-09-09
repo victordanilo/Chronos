@@ -493,6 +493,9 @@ div#main-content {
         display: table;
         margin: auto;
       }
+      .task-date input {
+        width: 66px;
+      }
 
       #wrapper-controls {
         display: flex;
