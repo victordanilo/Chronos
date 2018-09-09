@@ -307,7 +307,7 @@ div#main-content {
       box-sizing: content-box;
     }
 
-    .btn-task-wrapper {
+    #wrapper-controls, .wrapper-btn-task {
       display: inline-block;
       float: left;
     }
@@ -459,7 +459,7 @@ div#main-content {
       right: 0;
       bottom: 0;
       margin: 0;
-      padding: 0;
+      padding: 20px 0;
       box-sizing: border-box;
       background-color: rgba(0,0,0,.3);
       position: absolute;
@@ -478,7 +478,6 @@ div#main-content {
       right: 0;
       bottom: 0;
       margin: auto;
-      padding-bottom: 0px;
       box-sizing: border-box;
       position: absolute;
 
@@ -495,7 +494,15 @@ div#main-content {
         margin: auto;
       }
 
-      .btn-task-wrapper {
+      #wrapper-controls {
+        display: flex;
+        width: 100%;
+        height: auto;
+        box-sizing: content-box;
+        position: relative;
+        margin-bottom: 0px !important;
+      }
+      .wrapper-btn-task {
         width: calc(100% * 1 / 3.001);
       }
     }
@@ -543,8 +550,11 @@ div#main-content {
         width: auto;
       }
 
-      .btn-task-wrapper {
+      #wrapper-controls {
         margin: -10px auto;
+        margin-right: -1px;
+      }
+      .wrapper-btn-task {
         margin-right: 10px;
 
         &:last-of-type {
