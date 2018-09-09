@@ -551,4 +551,11 @@ nav#dock {
       }
     }
   }
+
+  @include screen-max-medium {
+    @at-root  body.show-keyboard & {
+        position: absolute;
+    }
+  }
 }
+

@@ -509,6 +509,12 @@ div#main-content {
         width: calc(100% * 1 / 3.001);
       }
     }
+
+    @at-root body.show-keyboard & #create-task-wrapper {
+      height: calc(100% - 60px - 55px);
+      bottom: 0px;
+      overflow-y: hidden;
+    }
   }
 
   @include screen-medium {
@@ -615,6 +621,40 @@ div#main-content {
       .btn-task-more {
         height: 32px;
       }
+    }
+  }
+
+  @include screen($max-width: breakpoint('medium') - 1px, $max-height: 160px, $orientation: landscape) {
+    @at-root body.show-keyboard & {
+      position: static !important;
+
+      #create-task-wrapper{
+        position: static !important;
+      }
+      #create-task {
+        display: table;
+        width: 100vw;
+        max-width: none;
+        height: 100vh;
+        top: 190px;
+        bottom: 0;
+        margin: auto;
+        position: fixed !important;
+        z-index: 50 !important;
+      }
+    }
+  }
+  @include screen($max-width: breakpoint('medium') - 1px, $orientation: landscape) {
+    #create-task-wrapper {
+      height: calc(100% - 50px - 60px - 55px);
+      bottom: 50px;
+      padding-bottom: 0px;
+      position: fixed;
+      overflow-y: scroll;
+    }
+    #create-task {
+      height: 284px;
+      position: relative;
     }
   }
 }

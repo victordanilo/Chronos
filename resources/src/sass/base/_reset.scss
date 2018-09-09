@@ -11,7 +11,12 @@ html, body {
     font-size: 100%;
     vertical-align: baseline;
     box-sizing: border-box;
+    overflow: hidden;
     background-color: color('muted');
+}
+body{
+    position:fixed; /* prevent overscroll bounce*/
+    -webkit-overflow-scrolling: touch; /* iOS velocity scrolling */
 }
 
 h1, h2, h3, h4, h5 {
