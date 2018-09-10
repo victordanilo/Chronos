@@ -4,6 +4,7 @@ div#aside-content {
 
   div#filter {
     padding-bottom: 20px;
+    position: relative;
 
     div#filter-buttons {
       width: 100%;
@@ -19,6 +20,33 @@ div#aside-content {
     }
     div#filter-search {
       display: none;
+    }
+    div#filter-date {
+      display: none;
+      width: 100%;
+      height: 40px;
+      margin-top: 10px;  
+      box-sizing: border-box;  
+      
+      .uk-button {
+        width: 50%;
+        height: 100%;      
+        padding: 0px 5px;
+        float: left;
+        color: color('text-secondary'); //#A8A8A8;
+        font-size: rem(14px);
+        text-transform: capitalize; 
+        transition: background .5s ease; 
+        position: relative;
+
+        &:hover, &:active, &.active {
+          background: color('smoke');
+        }
+
+        & > input {
+          display: none;
+        }
+      }
     }
     div#filter-tags {
       display: none;

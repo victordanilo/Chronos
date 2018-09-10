@@ -9,12 +9,16 @@ $(function () {
             this.list.stop();
         },
         filter: {
+            _current:null,
+
             init: function () {
                 this.search.init();
+                this.date.init();
                 this.tag.init();
             },
             stop: function () {
                 this.search.stop();
+                this.date.stop();
                 this.tag.stop();
             },
             search: {
@@ -41,18 +45,20 @@ $(function () {
                 },
                 open: function (type) {
                     var type = !empty(type) ? type : 'project';
-
-                    $("#filter-buttons a").removeClass('filter-active');
+                    
+                    project.filter.refresh();
                     $("#filter-buttons a[data-type="+type+"]").addClass('filter-active');
                     $("#filter-search > input")
                                                .attr("id", 'filter-search-'+type)
                                                .attr("placeholder", "Search "+type.capitalize());
                     $("#filter-search").show();
+                    project.filter._current = 'search';
                 },
-                close: function () {
+                close: function () {                                    
                     $("#filter-buttons a").removeClass('filter-active');
                     $("#filter-search > input").attr('id','').val('').data('id','');
                     $("#filter-search").hide();
+                    project.filter._current = null;
                 },
                 project: function () {
                     $(document).on('focus', '#filter-search-project', function () {
@@ -90,7 +96,7 @@ $(function () {
                             select: function( event, ui ) {
                                 project.filter.search.close();
                                 project.filter.tag.remove('client');
-                                project.filter.tag.add(ui.item.value,'tag-client','tag-first');
+                                project.filter.tag.add(ui.item.value,'client','tag-first');
                                 return false;
                             }
                         });
@@ -99,16 +105,96 @@ $(function () {
             },
             date: {
                 init: function () {
-
+                    $(document).on('click','.open-filter-date', function(){
+                        var has_show = $(this).hasClass('filter-active');
+                        
+                        if(has_show) 
+                            project.filter.date.close();                    
+                        else
+                            project.filter.date.open();                                                                
+                    });
+                    
+                    $(document).on('click',".tag[tag-type^='date'] .tag-remove", function(e){
+                        console.log($(this).parent().attr('tag-type'));
+                    });
+                    
+                    this.datepicker($("#filter-date-start-input"));
+                    this.datepicker($("#filter-date-end-input"));                            
                 },
                 stop: function () {
-
+                    $(document).off('click','.open-filter-date');
+                    $(document).off('click','.tag-type-date-*');
+                },            
+                open: function() {
+                    project.filter.refresh();                
+                    $('#filter-buttons a.open-filter-date').addClass('filter-active');
+                    $("#filter-date").show(); 
+                    project.filter._current = 'date';                       
                 },
-                start: function () {
-
+                close:function() {                                                    
+                    $('#filter-buttons a.open-filter-date').removeClass('filter-active');
+                    $("#filter-date").hide();
+                    project.filter._current = null;                        
                 },
-                end: function () {
+                datepicker: function(target) {
+                    target.datepicker({
+                        dateFormat: "dd M yy",                        
+                        beforeShow: function (input, inst) {                  
+                            // active button of datepicker
+                            target.parents('button').addClass('active');
+                            
+                            // set datepicker to small
+                            inst.dpDiv.addClass('small not-shadow');
+                            
+                            // set width to wrapper of datepicker
+                            setTimeout(function(){                            
+                                inst.dpDiv.outerWidth($("#filter-date").outerWidth());
+                            },0);
+                                                            
+                            // set postion wrapper of datepicker
+                            $.datepicker._findPos = function () {
+                                position = $("#filter-date").offset();
+                                position.top = position.top + 40;
+                                position.left = position.left;
 
+                                return [position.left, position.top];
+                            };
+                                                
+                            // set date range in Datepicker
+                            if (input.id == 'filter-date-start-input' && !empty($("#filter-date-end-input").val()) ) {                                
+                                var maxDate = new Date($("#filter-date-end-input").val());
+                                maxDate.setDate(maxDate.getDate() - 1)
+
+                                inst.settings.maxDate = maxDate;
+                            }
+                            else if (input.id == 'filter-date-end-input' && !empty($("#filter-date-start-input").val()) ) {                                
+                                var minDate = new Date($("#filter-date-start-input").val());
+                                minDate.setDate(minDate.getDate() + 1)
+                                                
+                                inst.settings.minDate = minDate;
+                            }
+                            
+                            if (input.id == 'filter-date-start-input') 
+                                inst.dataType = 'date-start';                        
+                            else if(input.id == 'filter-date-end-input') 
+                                inst.dataType = 'date-end';                                                        
+                        },
+                        onSelect: function(dateText, inst){
+                            var outDate = moment(new Date(dateText)).format("DD/MM/YY");
+                            tagType = inst.dataType;
+                            order = inst.dataType == 'date-end' ? 'tag-last' : '';                        
+                            project.filter.tag.add(outDate, tagType, order);
+                        },
+                        onClose: function (input, inst) {                            
+                            inst.dpDiv
+                                      .hide()
+                                      .removeClass('small not-shadow');                    
+                            target.parents('button').removeClass('active');
+                        }
+                    });
+                    target.parents('button').on('click',function(){                    
+                        target.datepicker('show');
+                    }); 
                 }
             },
             tag: {
@@ -140,6 +226,13 @@ $(function () {
                 remove: function (tag_type) {
                     $(".tag.tag-type-"+tag_type).remove();
                 }
+            },
+            refresh: function() {
+                if(empty(this._current))
+                    return false;
+                                
+                project.filter[this._current].close();                
+                return true;
             }
         },
         list: {
@@ -190,7 +283,7 @@ $(function () {
                 $("#project-list > .project").remove();
             },
             add: function (project) {
-                var $wapper = $("<div/>",{class:"project","data-id": project.id});
+                var $wapper = $("<div/>",{class:`project ${project.selected}`,"data-id": project.id});
                 var $client_name = $("<span/>",{class:"project-client uk-text-truncate"}).text(project.client);
                 var $project_name = $("<span/>",{class:"project-name uk-text-truncate"}).text(project.name);
 

@@ -83,13 +83,21 @@
                         <div class="uk-width-1-1 uk-height-1-1 uk-position-relative">
                             <a href="#" uk-icon="icon: search; ratio: 1.4" class="uk-position-center-left open-filter-search" data-type="project"></a>
                             <a href="#" uk-icon="icon: user; ratio: 1.4" class="uk-position-center open-filter-search" data-type="client"></a>
-                            <a href="#" uk-icon="icon: calendar; ratio: 1.5" class="uk-position-center-right"></a>
+                            <a href="#" uk-icon="icon: calendar; ratio: 1.5" class="uk-position-center-right open-filter-date"></a>
                         </div>
                     </div>
                     <div id="filter-content">
                         <div id="filter-search" class="uk-inline uk-width-1-1 uk-margin-small-top">
                             <a class="uk-form-icon uk-form-icon-flip close" href="#" uk-icon="icon: close; ratio: 1.4"></a>
                             <input type="text" class="uk-input" placeholder="Search">
+                        </div>
+                        <div id="filter-date">
+                            <button class="uk-button">Date Start
+                                <input type="text" id="filter-date-start-input" class="" value="" disabled>
+                            </button>
+                            <button class="uk-button">Date End
+                                <input type="text" id="filter-date-end-input" class="" value="" disabled>
+                            </button>
                         </div>
                         <div id="filter-tags" class="uk-margin-small-top">
                         </div>
