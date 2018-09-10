@@ -719,9 +719,17 @@ $(function () {
                         var task_date = $('#task-date-btn-open');
                         var has_expand = task_date.hasClass('expand');
                         var has_active = task_date.hasClass('active');
+
                         if(!has_active)
                             task_date.addClass('active');
-
+                        
+                        // add overlay mobile    
+                        if($(window).width() < 960) {
+                            $("#ui-datepicker-div").addClass('fullscreen');
+                            overlay.open();
+                        }
+                        
+                        // set postion wrapper of datepicker
                         $.datepicker._findPos = function () {
                             position = has_expand ? $(input).offset() : $(task_date).offset();
                             position.top = has_expand ? position.top + 11 : position.top + 42;
@@ -886,7 +894,7 @@ $(function () {
             }
         }
     };
-
+ 
     // init
     project.init();
     task.init();
@@ -900,7 +908,7 @@ $(function () {
 // set data initial
 tasks_list = [];
 status_list = [];
-
+ 
 // custom datepicker
 $.datepicker.setDefaults({
     dateFormat: 'dd/mm/y',
@@ -910,8 +918,6 @@ $.datepicker.setDefaults({
     onClose: function () {
         var inst = $.datepicker._curInst;
         $(inst.input).prop('disabled', false);
-
-        overlay.close();
     }
 });
 $.datepicker._pre_generateHTML = $.datepicker._generateHTML;
@@ -919,11 +925,6 @@ $.datepicker._generateHTML = function (inst) {
     var html = this._pre_generateHTML(inst);
     html = html.replace('<span class=\'ui-icon ui-icon-circle-triangle-w\'>Prev</span>','<span uk-icon="icon:chevron-left; ratio: 1.4"></span>');
     html = html.replace('<span class=\'ui-icon ui-icon-circle-triangle-e\'>Next</span>','<span uk-icon="icon:chevron-right; ratio: 1.4"></span>');
-
-    if($(window).width() < 960) {
-        $("#ui-datepicker-div").addClass('fullscreen');
-        overlay.open();
-    }
-
+    
     return html;
 };

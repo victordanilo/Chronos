@@ -6,7 +6,6 @@ $width: 325px;
   border: none;
   padding: 5px;
   font-family: "Roboto";
-  //@include box-shadow();
   box-shadow: 0 5px 12px rgba(0,0,0,0.15), 0 0 8px rgba(0,0,0,0.20);
 
   &, & * {
@@ -86,11 +85,31 @@ $width: 325px;
   }
 
   thead th {
-    color: #999999;
+    color: color('text-primary');
     font-weight: 200;
   }
 }
 
+
+.ui-datepicker.small {
+  //width: 100% !important;//228px;
+  border-top: 2px solid color('primary');
+  border-radius: 0px;
+  
+  th {
+    padding: .5em .3em;
+  }
+
+  .ui-state-default {
+    width: 24px;
+    height: 24px;
+    line-height: 26px;
+  }
+}
+
+.ui-datepicker.not-shadow {
+  box-shadow:none !important;
+}
 
 .ui-datepicker.fullscreen {
   width: calc(100% - 10px) !important;
