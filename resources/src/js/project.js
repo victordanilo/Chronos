@@ -283,7 +283,7 @@ $(function () {
                 $("#project-list > .project").remove();
             },
             add: function (project) {
-                var $wapper = $("<div/>",{class:`project ${project.selected}`,"data-id": project.id});
+                var $wapper = $("<div/>",{class:'project ' + project.selected,"data-id": project.id});
                 var $client_name = $("<span/>",{class:"project-client uk-text-truncate"}).text(project.client);
                 var $project_name = $("<span/>",{class:"project-name uk-text-truncate"}).text(project.name);
 
