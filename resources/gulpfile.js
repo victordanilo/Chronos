@@ -24,7 +24,7 @@ var production  = environments.production;
 var development = environments.development;
 
 // base directories path
-var path = 
+var path =
 {
     public: '../public',
     views:  '../application/views',
@@ -34,20 +34,20 @@ var path =
     dist: function(){
         return development() ? this.tests : this.public;
     }
-}
+};
 
 // assets path
-var assets = 
-{  
+var assets =
+{
     img:    path.dist() + '/assets/img',
     css:    path.dist() + '/assets/css',
     js:     path.dist() + '/assets/js',
     fonts:  path.dist() + '/assets/fonts',
     vendor: path.dist() + '/assets/vendor'
-}
+};
 
 // source path
-var source = 
+var source =
 {
     html: {
         path:  path.src + '/html',
@@ -73,7 +73,7 @@ var source =
         path:  path.src + '/fonts',
         files: path.src + '/fonts/*.{ttf,woff,eof,svg}'
     }
-}
+};
 
 
 // -------------------- setting of environment --------------------------
@@ -90,7 +90,7 @@ gulp.task('set-env-prod',function(done){
     done();
 });
 
-// show current environment 
+// show current environment
 gulp.task('env-current',function(done){
     var status = production() ? 'production' : development() ? 'development' : undefined;
     console.log('current environment is ' + status);
@@ -154,11 +154,9 @@ gulp.task('clean-tests',function(done){
 
 // -------------------- build source ---------------------
 
-// load views files 
+// load views files
 gulp.task('views', function(){
     return gulp.src(source.html.files)
-               .pipe(production(rename({extname: ".php"})))
-               .pipe(production(gulp.dest(path.views)))
                .pipe(development(gulp.dest(path.tests)));
 });
 
@@ -208,7 +206,7 @@ gulp.task('img', function(){
                .pipe(browserSync.stream());
 });
 
-// load fonts files 
+// load fonts files
 gulp.task('fonts',function(){
     return gulp.src(source.fonts.files)
                .pipe(gulp.dest(assets.fonts))
@@ -264,16 +262,17 @@ gulp.task('build-custom-uikit-sass', function (){
 
 // build custom uikit js
 gulp.task('build-custom-uikit-js', function(done){
-    uikit.compile('src/js/vendor/uikit.js', assets.vendor + '/uikit/js/uikit', {bundled: true});
+    uikit.compile('src/js/vendor/uikit.js', assets.vendor + '/uikit/js/uikit', {minify: true});
     done();
 });
 
 // build custom uikit icons
 gulp.task('build-custom-uikit-icons', function(done){
-    uikit.compile('vendor/uikit/src/js/icons.js', assets.vendor + '/uikit/js/uikit-icons', {
+    (async () => uikit.compile('vendor/uikit/build/wrapper/icons.js', assets.vendor + '/uikit/js/uikit-icons', {
+        minify: true,
         name: 'icons',
-        replaces: {ICONS: uikit.icons('{vendor/uikit/src/images,src/img}/icons/*.svg')}
-    });
+        replaces: {ICONS: await uikit.icons('{vendor/uikit/src/images,src/img}/icons/*.svg')}
+    }))();
     done();
 });
 
@@ -293,7 +292,7 @@ gulp.task('load-data', function(){
 gulp.task('build', gulp.series('load-dependencies','build-source','build-custom-uikit-icons'));
 
 // set up a local testing server
-gulp.task('server', gulp.series('clean-tests', 'set-env-dev', 'load-dependencies', 'build-source', 'build-custom-uikit-icons', 'load-data', function(){
+gulp.task('serve', gulp.series('clean-tests', 'set-env-dev', 'load-dependencies', 'build-source', 'build-custom-uikit-icons', 'load-data', function(){
     browserSync.init({
         server:{
             baseDir: path.tests
