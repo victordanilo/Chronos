@@ -17,5 +17,13 @@
     "vendor",
     "tests"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "uikit": "v3.5.5",
+    "jquery": "3.5.1",
+    "jquery-ui": "^1.12.1",
+    "jquery-mask-plugin": "^1.14.15",
+    "mustache.js": "mustache#^3.0.1",
+    "moment": "^2.24.0",
+    "stopwatch": "*"
+  }
 }

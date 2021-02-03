@@ -1,0 +1,22 @@
+@each $name, $value in map-merge($colors-flat,$colors-theme) {
+  .bg-color-#{$name}{
+    background-color: $value !important;
+
+    &.bg-color-hover:hover {
+        @if map_has_key($colors,$name + '-dark') {
+          background-color: color($name + '-dark') !important;
+        }
+        @else {
+          background-color: darken($value,3%) !important;
+        }
+    }
+  }
+
+  [bg-color=#{$name}] {
+    background-color: $value !important;
+  }
+
+  .color-#{$name}{
+    color: $value !important;
+  }
+}

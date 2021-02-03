@@ -1,0 +1,97 @@
+.dropdown {
+  display: none ;
+  width: 100%;
+  height: calc(100% - 60px - 55px);
+  background: color('default');
+  padding: 10px;
+  padding-bottom: 0px;
+  border: 1px solid color('smoke');
+  box-sizing: border-box;
+  overflow: hidden;
+  position: fixed;
+  z-index: 3;
+
+  &-header {
+    height: 45px;
+    padding: 5px 0px;
+    position: relative;
+
+    h3.dropdown-title {
+      line-height: 40px;
+      font-size: 1.4em;
+      color: color('text-secondary');
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    a.dropdown-close {
+      margin-right: 20px !important;
+    }
+  }
+
+  &-content {
+    height: calc(100% - 60px - 50px);
+    padding: 0px 10px;
+    overflow-y: auto;
+  }
+
+
+  @include screen-height-max(320px) {
+    body.open-dropdown {
+      overflow: hidden !important;
+
+      aside, nav#dock, main div#main-title{
+        display: none !important;
+      }
+
+      .dropdown {
+        top: 0px !important;
+        height: 100vh !important;
+        overflow-y: scroll !important;
+
+        &-content{
+          height: 50vh;
+        }
+      }
+    }
+  }
+
+  @include screen-max-medium {
+    top: 115px !important;
+    left: 0 !important;
+
+    &-content {
+      padding-bottom: 50px;
+    }
+  }
+
+  @include screen-medium {
+    width: auto;
+    height: auto;
+    min-width: 150px;
+    padding-bottom: 12px;
+    box-sizing: content-box;
+    position: absolute;
+    z-index: 7;
+    @include box-shadow();
+
+    &-header {
+      height: 30px;
+
+      h3.dropdown-title {
+        line-height: 25px;
+      }
+
+      a.dropdown-close{
+        display: none;
+      }
+    }
+
+    &-content {
+      width: auto;
+      height: auto;
+      max-height: 200px;
+      box-sizing: content-box;
+    }
+  }
+}

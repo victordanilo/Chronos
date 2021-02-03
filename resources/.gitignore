@@ -1,3 +1,5 @@
+.idea/*
 node_modules/*
 tests/*
 vendor/*
+package-lock.json

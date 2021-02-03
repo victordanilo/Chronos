@@ -1,0 +1,64 @@
+// Breakpoints
+$breakpoints: (
+  small:   640px,     // Small screen
+  medium:  960px,     // Medium screen
+  large:   1200px,    // Large screen
+  xlarge:  1600px,    // Extra Large screen
+);
+
+// Flat Colors
+$colors-flat: (
+  'turquoise':        #1abc9c,
+  'turquoise-dark':   #16a085,
+  'green':            #2ecc71,
+  'green-dark':       #27ae60,
+  'blue':             #1e87f0,
+  'blue-dark':        #0067B0,
+  'midnight':         #34495e,
+  'midnight-dark':    #2c3e50,
+  'yellow':           #f1c40f,
+  'yellow-dark':      #f39c12,
+  'orange':           #e67e22,
+  'orange-dark':      #d35400,
+  'red':              #e74c3c,
+  'red-dark':         #c0392b,
+  'pink':             #EA4C88,
+  'pink-dark':        #CA2C68,
+  'purple':           #9B59B6,
+  'purple-dark':      #8E44AD,
+  'smoke':            #ecf0f1,
+  'smoke-dark':       #bdc3c7,
+  'gray':             #95a5a6,
+  'gray-dark':        #7f8c8d,
+);
+
+// Themes Colors
+$colors-theme:(
+  'primary':          #1e87f0,
+  'primary-dark':     #0067B0,
+  'secondary':        #232123,
+  'secondary-dark':   #1b1b1b,
+  'success':          #2ecc71,
+  'success-dark':     #27ae60,
+  'warning':          #f39c12,
+  'warning-dark':     #e67e22,
+  'danger':           #e74c3c,
+  'danger-dark':      #c0392b,
+  'default':          #ffffff,
+  'muted':            #f8f8f8,
+  'inverse':          #0F0F0F,
+);
+
+// Text Colors
+$colors-text:(
+  'text-primary':     #212121,
+  'text-secondary':   #727272,
+  'text-muted':       #aaa,
+);
+
+$colors: map-merge($colors-flat,$colors-theme);
+$colors: map-merge($colors-text,$colors);
+
+// Fonts Style
+$font-family-default: Helvetica, Arial, sans-serif;
+$font-size-default: 16px;

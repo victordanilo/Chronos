@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronos</title>
+    <link rel="icon" href="assets/img/favicon.png" />
+    <link rel="stylesheet" href="assets/vendor/uikit/css/uikit.min.css">
+    <link rel="stylesheet" href="assets/vendor/jquery-ui/themes/base/jquery-ui.min.css">
+    <link rel="stylesheet" href="assets/css/main.min.css">
+    <link rel="stylesheet" href="assets/css/project.min.css">
+    <script src="assets/vendor/jquery/jquery.min.js"></script>
+    <script src="assets/vendor/uikit/js/uikit.min.js"></script>
+    <script src="assets/vendor/uikit/js/uikit-icons.min.js"></script>
+    <script src="assets/vendor/moment/moment.min.js"></script>
+    <script src="assets/vendor/stopwatch/Stopwatch.min.js"></script>
+    <script src="assets/vendor/mustache.js/mustache.min.js"></script>
+    <script src="assets/vendor/jquery-ui/jquery-ui.min.js"></script>
+    <script src="assets/vendor/jquery-mask-plugin/jquery.mask.min.js"></script>
+    <script src="assets/js/common.min.js"></script>
+    <script src="assets/js/main.min.js"></script>
+    <script src="assets/js/project.min.js"></script>
+</head>
+<body>
+    <div class="uk-section uk-height-1-1 uk-padding-remove">
+        <nav id="menu">
+            <h3 class="title">Menu</h3>
+            <ul class="uk-iconnav uk-iconnav-vertical">
+                <li id="logo">
+                    <span uk-icon="icon: logo"></span>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="indicator"></span>
+                        <span uk-icon="icon: grid"></span>
+                        <span class="subtitle">Dashboard</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#">
+                        <span class="indicator"></span>
+                        <span class="" uk-icon="icon: bolt"></span>
+                        <span class="subtitle">Project</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="indicator"></span>
+                        <span uk-icon="icon: comment"></span>
+                        <span class="subtitle">Messenger</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="indicator"></span>
+                        <span uk-icon="icon: users"></span>
+                        <span class="subtitle">Clients</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="indicator"></span>
+                        <span uk-icon="icon: settings"></span>
+                        <span class="subtitle">Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="notify">
+            <h3 class="title">Notifications</h3>
+        </div>
+
+        <aside class="expand">
+            <div id="aside-title">
+                <a class="controls-nav" href="#" uk-icon="icon: arrow-left"></a>
+                <h3>Project</h3>
+            </div>
+            <div id="aside-content">
+                <div id="filter">
+                    <div id="filter-buttons">
+                        <div class="uk-width-1-1 uk-height-1-1 uk-position-relative">
+                            <a href="#" uk-icon="icon: search; ratio: 1.4" class="uk-position-center-left open-filter-search" data-type="project"></a>
+                            <a href="#" uk-icon="icon: user; ratio: 1.4" class="uk-position-center open-filter-search" data-type="client"></a>
+                            <a href="#" uk-icon="icon: calendar; ratio: 1.5" class="uk-position-center-right open-filter-date"></a>
+                        </div>
+                    </div>
+                    <div id="filter-content">
+                        <div id="filter-search" class="uk-inline uk-width-1-1 uk-margin-small-top">
+                            <a class="uk-form-icon uk-form-icon-flip close" href="#" uk-icon="icon: close; ratio: 1.4"></a>
+                            <input type="text" class="uk-input" placeholder="Search">
+                        </div>
+                        <div id="filter-date">
+                            <button class="uk-button">Date Start
+                                <input type="text" id="filter-date-start-input" class="" value="" disabled>
+                            </button>
+                            <button class="uk-button">Date End
+                                <input type="text" id="filter-date-end-input" class="" value="" disabled>
+                            </button>
+                        </div>
+                        <div id="filter-tags" class="uk-margin-small-top">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="project-list" class="scrollbar-small scrollbar-dark scrollbar-round">
+                </div>
+
+                <button id="btn-new-project" class="uk-button-fab uk-button-primary uk-position-z-index">
+                    <span uk-icon="icon: plus"></span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="collapse">
+            <div id="main-title">
+                <a class="controls-nav" href="#" uk-icon="icon: arrow-left"></a>
+                <h3 class="uk-text-truncate">Chronos</h3>
+            </div>
+            <div id="main-content">
+                <div id="indicator-view" class="uk-button-group uk-flex uk-flex-right" button-radio>
+                    <label class="uk-button">
+                        <input type="radio" name="view" value="" checked>
+                        <span uk-icon="icon:future"></span>
+                    </label>
+                    <label class="uk-button">
+                        <input type="radio" name="view" value="kaban">
+                        <span uk-icon="icon:graphic"></span>
+                    </label>
+                </div>
+
+                <div id="board-wrapper">
+                    <div id="create-task-wrapper" class="">
+                        <div id="create-task" data-id="">
+                            <input type="text" name="task_name" id="task-input-name" placeholder="Task name">
+
+                            <button class="task-status" bg-color="red" status-id="1" dropdown>
+                                <span class="task-status-icon" uk-icon="icon:tag"></span>
+                                <span class="task-status-name">Backlog</span>
+                            </button>
+                            <div class="dropdown">
+                                <div class="dropdown-header">
+                                    <h3 class="dropdown-title">Status</h3>
+                                    <a href="#" class="dropdown-close uk-close-large uk-position-center-right" uk-close></a>
+                                </div>
+                                <div class="dropdown-content scrollbar-small scrollbar-round">
+                                    <ul class="status-list uk-list">
+                                    </ul>
+                                    <a href="#new-status" id="open-new-status" class="uk-icon-button" uk-icon="plus" uk-toggle></a>
+                                </div>
+                            </div>
+
+                            <div class="task-date-time-wrapper">
+                                <div class="task-date expand" id="task-date-btn-open">
+                                    <span uk-icon="icon: calendar"></span>
+                                    <div class="uk-display-inline">
+                                        <input type="text" id="task-date-input" class="date" value="" disabled>
+                                        <a uk-close id="task-date-btn-close"></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="task-date-time-wrapper">
+                                <div class="task-time expand" id="task-time-btn-open">
+                                    <span uk-icon="icon: clock"></span>
+                                    <div class="uk-display-inline">
+                                        <input type="text" id="task-time-input" class="time" value="00:00:00">
+                                        <a uk-close id="task-time-btn-close"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="wrapper-controls">
+                                <div class="wrapper-btn-task uk-hidden@m">
+                                    <button id="btn-task-close" class="btn-task uk-button-fab">
+                                        <span uk-icon="icon:close"></span>
+                                    </button>
+                                </div>
+                                <div class="wrapper-btn-task">
+                                    <button id="btn-task-player" class="btn-task uk-button-fab" data-status="pause">
+                                        <span uk-icon="icon:control-play"></span>
+                                    </button>
+                                </div>
+                                <div class="wrapper-btn-task">
+                                    <button id="btn-task-new" class="btn-task uk-button-fab">
+                                        <span uk-icon="icon:plus"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="board-content">
+                    </div>
+
+                    <button id="open-new-task" class="uk-position-z-index uk-hidden@m">new task</button>
+                </div>
+            </div>
+        </main>
+
+        <nav id="dock" class="uk-width-1-1 uk-hidden@m">
+            <ul class="uk-iconnav">
+                <li id="open-menu" data="menu" class="uk-width-expand">
+                    <span uk-icon="icon: menu; ratio:1.3"></span>
+                    <span class="indicator"></span>
+                </li>
+                <li id="open-notify" data="notify" class="uk-width-expand">
+                    <span uk-icon="icon: bell; ratio:1.3"></span>
+                    <span class="indicator"></span>
+                </li>
+                <li class="uk-width-expand">
+                    <span uk-icon="icon: comment;ratio:1.3"></span>
+                    <span class="indicator"></span>
+                </li>
+                <li class="uk-width-expand active">
+                    <span uk-icon="icon: bolt; ratio:1.3"></span>
+                    <span class="indicator"></span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- templates mustache -->
+    <script id="status_item_template" type="x-tmpl-mustache">
+        <li status-id="{{status_id}}" class="status-list-item {{status_active}}">
+            <span class="status-name">{{status_name}}</span>
+            <span class="status-indicator" bg-color="{{status_color}}"><span uk-icon="check2"></span></span>
+            <button class="status-btn-more uk-icon-button" uk-icon="more"></button>
+            <button class="status-btn-confirm-edit uk-icon-button" uk-icon="check"></button>
+            <div class="status-more-options-wrapper">
+                <div class="status-more-options-content">
+                    <button class="status-edit uk-icon-button" uk-icon="pencil"></button>
+                    <button class="status-remove uk-icon-button" uk-icon="trash"></button>
+                    <button class="status-change-color uk-icon-button" uk-icon="paint-bucket"></button>
+                    <button class="status-more-options-close uk-icon-button" uk-close></button>
+                </div>
+            </div>
+            <div class="palette-colors-wrapper">
+                <ul class="palette-colors-content">
+                    <li bg-color="midnight"></li>
+                    <li bg-color="turquoise"></li>
+                    <li bg-color="blue"></li>
+                    <li bg-color="purple"></li>
+                    <li bg-color="pink"></li>
+                    <li bg-color="red"></li>
+                    <li bg-color="orange"></li>
+                    <li bg-color="yellow"></li>
+                </ul>
+            </div>
+        </li>
+    </script>
+
+    <script id="task_template" type="x-tmpl-mustache">
+        <div class="task" task-id="{{id}}">
+            <div class="task-content">
+                <span class="task-name">{{name}}</span>
+
+                <button class="task-status" bg-color="{{status.color}}" status-id="{{status.id}}" dropdown="">
+                    <span class="task-status-icon" uk-icon="icon:tag"></span>
+                    <span class="task-status-name">{{status.name}}</span>
+                </button>
+                <div class="dropdown not-task-content">
+                    <div class="dropdown-header">
+                        <h3 class="dropdown-title">Status</h3>
+                        <a href="#" class="dropdown-close uk-close-large uk-position-center-right" uk-close></a>
+                    </div>
+                    <div class="dropdown-content scrollbar-small scrollbar-round">
+                        <ul class="status-list uk-list">
+                            {{{dropdown_content}}}
+                        </ul>
+                        <a href="#new-status" id="open-new-status" class="uk-icon-button" uk-icon="plus" uk-toggle></a>
+                    </div>
+                </div>
+
+                <div class="task-date expand">
+                    <span uk-icon="icon: calendar"></span>
+                    <div class="uk-display-inline">
+                        <input type="text" class="date task-date-input" value="{{date}}" disabled>
+                    </div>
+                </div>
+
+                <div class="task-time expand">
+                    <span uk-icon="icon: clock"></span>
+                    <div class="uk-display-inline">
+                        <input type="text" class="time task-time-input" value="{{time}}" disabled>
+                    </div>
+                </div>
+
+                <button class="btn-task-player" data-status='pause'>
+                    <span uk-icon="icon:control-play"></span>
+                </button>
+
+                <button class="btn-task btn-task-more uk-icon-button" uk-icon="icon:more"></button>
+                <div uk-dropdown="mode: click; offset: 0; pos: bottom-right" class="not-task-content uk-dropdown uk-padding-small uk-position-z-index">
+                    <ul class="uk-nav uk-dropdown-nav">
+                        <li><a href="#" class="task-remove"><span class="uk-icon" uk-icon="icon: trash"></span> Delete</a></li>
+                        <li class="uk-hidden@s"><a href="#"><span class="uk-icon" uk-icon="icon: plus-circle"></span> More</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!-- templates mustache -->
+
+    <div id="new-status" class="uk-modal-full uk-modal" uk-modal>
+        <div class="uk-modal-dialog uk-flex uk-flex-center uk-flex-middle" uk-height-viewport>
+            <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
+            <div class="uk-search uk-search-large" id="new-status-content">
+                <input id="new-status-input" class="uk-search-input" type="text" placeholder="Status name" autofocus>
+
+                <ul class="palette-colors">
+                    <li bg-color="midnight"></li>
+                    <li bg-color="turquoise"></li>
+                    <li bg-color="blue"></li>
+                    <li bg-color="purple"></li>
+                    <li bg-color="pink"></li>
+                    <li bg-color="red"></li>
+                    <li bg-color="orange"></li>
+                    <li bg-color="yellow"></li>
+                </ul>
+
+                <button id="new-status-save" class="uk-button uk-button-primary uk-width-1-1 uk-margin-top">Save</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
